@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class authTextes {
+abstract class authStyles {
   static const buttonTextStyleActive = TextStyle(
       fontSize: 25,
       fontWeight: FontWeight.w400,
