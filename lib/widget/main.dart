@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ri_and_go/widget/auth/SingIn/SecondSingInWidget.dart';
+import 'package:ri_and_go/widget/auth/SingIn/SingInScreenWidget.dart';
 import '../Theme/app_color.dart';
 import 'auth/AuthScreenWidget.dart';
 
@@ -20,8 +22,12 @@ class MyApp extends StatelessWidget {
         ),
       ),
       routes: {
-        '/': (context) => AuthWidget(),
+        'login': (context) => AuthWidget(),
+        'firstSingin' : (context) => SingWidget(),
+        'secondSingin' : (context) => SecondSingWidget(),
       },
+
+      initialRoute: 'login',
     );
   }
 }

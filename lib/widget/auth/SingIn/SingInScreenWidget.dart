@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:ri_and_go/Theme/app_authTextStyles.dart';
 
-class AuthWidget extends StatefulWidget {
-  AuthWidget({Key? key}) : super(key: key);
+class SingWidget extends StatefulWidget {
+  SingWidget({Key? key}) : super(key: key);
 
   @override
-  _AuthWidget createState() => _AuthWidget();
+  _SingWidget createState() => _SingWidget();
 }
 
-class _AuthWidget extends State<AuthWidget> {
+class _SingWidget extends State<SingWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-      children: [
-        _Header(),
-      ],
-    ));
+          children: [
+            _Header(),
+          ],
+        ));
   }
 }
 
@@ -25,22 +25,18 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(
-      fontSize: 16,
-      color: Colors.black,
-    );
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            SizedBox(height: 75,),
-          Image.asset("Assets/img/Vector.png"),
-          SizedBox(height: 30,),
-          _ButtonAuth(),
+            _ButtonSingIn(),
+            Image.asset("Assets/img/Vector.png"),
+            SizedBox(height: 30,),
+            _ButtonReges(),
             SizedBox(height: 20,),
-          _FormWidget(),
-        ])]);
+            _FormWidget(),
+          ])]);
   }
 }
 
@@ -55,13 +51,14 @@ class _FormWidgetState extends State<_FormWidget> {
   final _loginTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   bool visiblePassword = true;
-  int countClick = 1;
 
   void vizible() {
     setState(() {
       visiblePassword = !visiblePassword;
     });
   }
+
+  void navigateNext() => Navigator.of(context).pushNamed('secondSingin');
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +71,7 @@ class _FormWidgetState extends State<_FormWidget> {
           TextField(
             decoration: InputDecoration(
                 prefixIcon: Icon(Icons.email_outlined),
-                labelText: 'Email',
+                labelText: 'Email Address',
                 hoverColor: Colors.blueGrey),
             controller: _loginTextController,
           ),
@@ -82,25 +79,21 @@ class _FormWidgetState extends State<_FormWidget> {
           SizedBox(height: 20),
           TextField(
             decoration: InputDecoration(
-              labelText: 'Password',
-              prefixIcon: Icon(Icons.lock_outline),
-              suffixIcon: IconButton(
-                icon: Icon(Icons.remove_red_eye_outlined),
-                onPressed: vizible,
-              ),
-            ),
+                prefixIcon: Icon(Icons.phone),
+                labelText: 'Telephonr Number',
+                hoverColor: Colors.blueGrey),
             obscureText: visiblePassword,
             controller: _passwordTextController,
           ),
           SizedBox(height: 120),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: navigateNext,
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Color(0xffE6A050)),
               fixedSize: MaterialStateProperty.all(Size(318, 45)),
             ),
             child: Text(
-              'Login',
+              'Continue',
               style: authTextes.LoginButton,
             ),
           ),
@@ -110,35 +103,52 @@ class _FormWidgetState extends State<_FormWidget> {
   }
 }
 
-class _ButtonAuth extends StatefulWidget {
-  _ButtonAuth({Key? key}) : super(key: key);
+class _ButtonReges extends StatefulWidget {
+  _ButtonReges({Key? key}) : super(key: key);
 
   @override
-  _ButtonAuthState createState() => _ButtonAuthState();
+  _ButtonRegesState createState() => _ButtonRegesState();
 }
 
-class _ButtonAuthState extends State<_ButtonAuth> {
-  void navigateRegester() => Navigator.of(context).pushNamed('firstSingin');
+class _ButtonRegesState extends State<_ButtonReges> {
+  @override
+  Widget build(BuildContext context) {
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children:[
+      Text(
+        'Register',
+        style: authTextes.buttonTextStyleActive,
+      ),
+    ],
+    );
+  }
+}
+
+class _ButtonSingIn extends StatefulWidget {
+  _ButtonSingIn({Key? key}) : super(key: key);
+
+  @override
+  _ButtonSingInState createState() => _ButtonSingInState();
+}
+
+class _ButtonSingInState extends State<_ButtonSingIn> {
+  void navigateLogIn() => Navigator.of(context).pushNamed('login');
 
   @override
   Widget build(BuildContext context) {
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         TextButton(
-            onPressed: () {},
-            child: Text(
-              'Login',
-              style: authTextes.buttonTextStyleActive,
+          onPressed: navigateLogIn,
+          child: Text(
+            'Log in',
+            style: authTextes.smallButtons,
           ),
         ),
-        TextButton(
-            onPressed: navigateRegester,
-            child: Text(
-                'Register',
-                style: authTextes.buttonTextStyle,
-            )
-        )
       ],
     );
   }
