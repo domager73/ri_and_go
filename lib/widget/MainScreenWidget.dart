@@ -12,10 +12,10 @@ class _AuthWidget extends State<AuthWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-          children: [
-            _Header(),
-          ],
-        ));
+      children: [
+        _Header(),
+      ],
+    ));
   }
 }
 
@@ -31,18 +31,12 @@ class _Header extends StatelessWidget {
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Image.asset("Assets/img/Vector.png"),
-                const SizedBox(height: 25),
-                _FormWidget(),
-              ]
-              )
-          ),
-      ],
-    );
+        children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Image.asset("Assets/img/Vector.png"),
+          const SizedBox(height: 25),
+          _FormWidget(),
+        ])]);
   }
 }
 
@@ -95,10 +89,9 @@ class _FormWidgetState extends State<_FormWidget> {
         SizedBox(height: 5),
         TextField(
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.email_outlined),
-            labelText: 'Email',
-            hoverColor: Colors.blueGrey
-          ),
+              prefixIcon: Icon(Icons.email_outlined),
+              labelText: 'Email',
+              hoverColor: Colors.blueGrey),
           controller: _loginTextController,
         ),
         SizedBox(height: 20),
@@ -111,7 +104,6 @@ class _FormWidgetState extends State<_FormWidget> {
               onPressed: () {},
             ),
           ),
-
           obscureText: true,
           controller: _passwordTextController,
         ),
