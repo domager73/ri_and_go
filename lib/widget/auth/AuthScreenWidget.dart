@@ -29,10 +29,11 @@ class _Header extends StatelessWidget {
       color: Colors.black,
     );
 
-    return Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Image.asset("Assets/img/Vector.png", width: 200, height: 200,),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Image.asset("Assets/img/Vector.png"),
           _ButtonAuth(),
           _FormWidget(),
 
