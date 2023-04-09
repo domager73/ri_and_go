@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Theme/app_color.dart';
-import 'MainScreenWidget.dart';
+import 'auth/AuthScreenWidget.dart';
 
 void main() {
   runApp(const MyApp());

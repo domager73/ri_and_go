@@ -29,14 +29,14 @@ class _Header extends StatelessWidget {
       color: Colors.black,
     );
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Image.asset("Assets/img/Vector.png"),
-          const SizedBox(height: 25),
+    return Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Image.asset("Assets/img/Vector.png", width: 200, height: 200,),
+          _ButtonAuth(),
           _FormWidget(),
-        ])]);
+
+        ]));
   }
 }
 
@@ -50,42 +50,20 @@ class _FormWidget extends StatefulWidget {
 class _FormWidgetState extends State<_FormWidget> {
   final _loginTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
+  bool visiblePassword = true;
+  int countClick = 1;
+
+  void vizible() {
+    setState(() {
+      visiblePassword = !visiblePassword;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(
-      fontSize: 16,
-      color: Color(0xff212529),
-    );
-
-    final styleButton = ButtonStyle(
-      foregroundColor: MaterialStateProperty.all<Color>(Color(0xffB97003)),
-    );
-
-    final textDecorator = InputDecoration(
-      border: OutlineInputBorder(),
-      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      isCollapsed: true,
-    );
 
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TextButton(
-              onPressed: () {},
-              child: Text('Login'),
-              style: styleButton,
-            ),
-            TextButton(
-              onPressed: () {},
-              child: Text('Reset password'),
-              style: styleButton,
-            )
-          ],
-        ),
         SizedBox(height: 5),
         TextField(
           decoration: InputDecoration(
@@ -94,6 +72,7 @@ class _FormWidgetState extends State<_FormWidget> {
               hoverColor: Colors.blueGrey),
           controller: _loginTextController,
         ),
+
         SizedBox(height: 20),
         TextField(
           decoration: InputDecoration(
@@ -101,18 +80,63 @@ class _FormWidgetState extends State<_FormWidget> {
             prefixIcon: Icon(Icons.lock_outline),
             suffixIcon: IconButton(
               icon: Icon(Icons.remove_red_eye_outlined),
-              onPressed: () {},
+              onPressed: vizible,
             ),
           ),
-          obscureText: true,
+          obscureText: visiblePassword,
           controller: _passwordTextController,
         ),
-        SizedBox(
-          height: 25,
+        SizedBox(height: 120),
+        TextButton(
+            onPressed: () {},
+            child: Text(
+              'Login'
+            ),
         ),
-        SizedBox(
-          height: 25,
+      ],
+    );
+  }
+}
+
+class _ButtonAuth extends StatefulWidget {
+  _ButtonAuth({Key? key}) : super(key: key);
+
+  @override
+  _ButtonAuthState createState() => _ButtonAuthState();
+}
+
+class _ButtonAuthState extends State<_ButtonAuth> {
+  @override
+  Widget build(BuildContext context) {
+    final styleButton = ButtonStyle(
+      foregroundColor: MaterialStateProperty.all<Color>(Color(0xffB97003)),
+    );
+
+    final buttonTextStyle = TextStyle(
+      fontSize: 25,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Roboto',
+    );
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        TextButton(
+          onPressed: () {},
+          child: Text(
+              'Login',
+              style: buttonTextStyle,
+          ),
+          style: styleButton,
         ),
+        TextButton(
+          onPressed: () {},
+          child: Text(
+              'Register',
+              style: buttonTextStyle
+          ),
+          style: styleButton,
+        )
       ],
     );
   }
