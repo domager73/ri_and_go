@@ -32,7 +32,7 @@ class _Header extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           Image.asset("Assets/img/Vector.png"),
           const SizedBox(height: 25),
           _FormWidget(),
@@ -58,8 +58,20 @@ class _FormWidgetState extends State<_FormWidget> {
       color: Color(0xff212529),
     );
 
-    final styleButton = ButtonStyle(
-      foregroundColor: MaterialStateProperty.all<Color>(Color(0xffB97003)),
+    final buttonTextStyleActive = TextStyle(
+      fontSize: 25,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Roboto',
+      decoration: TextDecoration.underline,
+      decorationThickness: 2,
+      decorationColor: Color(0xff854000),
+      color: Color(0xffB97003)
+    );
+    final buttonTextStyle = TextStyle(
+      fontSize: 25,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Roboto',
+      color: Color(0xffA6A6A6),
     );
 
     final textDecorator = InputDecoration(
@@ -72,17 +84,16 @@ class _FormWidgetState extends State<_FormWidget> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton(
               onPressed: () {},
-              child: Text('Login'),
-              style: styleButton,
+              child: Text('Login',
+                style: buttonTextStyleActive),
             ),
             TextButton(
               onPressed: () {},
-              child: Text('Reset password'),
-              style: styleButton,
+              child: Text('Registre', style: buttonTextStyle),
             )
           ],
         ),
