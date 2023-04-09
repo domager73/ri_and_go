@@ -32,12 +32,14 @@ class _Header extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            SizedBox(height: 75,),
           Image.asset("Assets/img/Vector.png"),
+          SizedBox(height: 30,),
           _ButtonAuth(),
+            SizedBox(height: 20,),
           _FormWidget(),
-
-        ]));
+        ])]);
   }
 }
 
@@ -63,38 +65,41 @@ class _FormWidgetState extends State<_FormWidget> {
   @override
   Widget build(BuildContext context) {
 
-    return Column(
-      children: [
-        SizedBox(height: 5),
-        TextField(
-          decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email_outlined),
-              labelText: 'Email',
-              hoverColor: Colors.blueGrey),
-          controller: _loginTextController,
-        ),
-
-        SizedBox(height: 20),
-        TextField(
-          decoration: InputDecoration(
-            labelText: 'Password',
-            prefixIcon: Icon(Icons.lock_outline),
-            suffixIcon: IconButton(
-              icon: Icon(Icons.remove_red_eye_outlined),
-              onPressed: vizible,
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        children: [
+          SizedBox(height: 5),
+          TextField(
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.email_outlined),
+                labelText: 'Email',
+                hoverColor: Colors.blueGrey),
+            controller: _loginTextController,
           ),
-          obscureText: visiblePassword,
-          controller: _passwordTextController,
-        ),
-        SizedBox(height: 120),
-        TextButton(
-            onPressed: () {},
-            child: Text(
-              'Login'
+
+          SizedBox(height: 20),
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Password',
+              prefixIcon: Icon(Icons.lock_outline),
+              suffixIcon: IconButton(
+                icon: Icon(Icons.remove_red_eye_outlined),
+                onPressed: vizible,
+              ),
             ),
-        ),
-      ],
+            obscureText: visiblePassword,
+            controller: _passwordTextController,
+          ),
+          SizedBox(height: 120),
+          TextButton(
+              onPressed: () {},
+              child: Text(
+                'Login'
+              ),
+          ),
+        ],
+      ),
     );
   }
 }
