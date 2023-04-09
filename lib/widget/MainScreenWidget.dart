@@ -35,7 +35,7 @@ class _Header extends StatelessWidget {
         Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Image.network('https://picsum.photos/250?image=9'),
+                Image.asset("Assets/img/Vector.png"),
                 const SizedBox(height: 25),
                 _FormWidget(),
               ]
@@ -95,30 +95,19 @@ class _FormWidgetState extends State<_FormWidget> {
         SizedBox(height: 5),
         TextField(
           decoration: InputDecoration(
-            hintText: 'Введите ваше сообщение',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            labelText: 'Сообщение',
-            prefixIcon: Icon(Icons.message),
-            suffixIcon: IconButton(
-              icon: Icon(Icons.send),
-              onPressed: () {},
-            ),
+            prefixIcon: Icon(Icons.email_outlined),
+            labelText: 'Email',
+            hoverColor: Colors.blueGrey
           ),
           controller: _loginTextController,
         ),
         SizedBox(height: 20),
         TextField(
           decoration: InputDecoration(
-
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            labelText: 'Сообщение',
-            prefixIcon: Icon(Icons.message),
+            labelText: 'Password',
+            prefixIcon: Icon(Icons.lock_outline),
             suffixIcon: IconButton(
-              icon: Icon(Icons.send),
+              icon: Icon(Icons.remove_red_eye_outlined),
               onPressed: () {},
             ),
           ),
