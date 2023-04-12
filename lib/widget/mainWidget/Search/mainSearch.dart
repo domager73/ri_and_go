@@ -37,6 +37,12 @@ class _SearchState extends State<mainSearch> {
     context.read<Repository>().cities = newLoadedTrips;
     flag = false;
   }
+  Future<void> refresh()async {
+    setState(() {
+      flag = true;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,30 +66,33 @@ class _SearchState extends State<mainSearch> {
           textAlign: TextAlign.center,
         ),
       ),
-      body: Container(
-        constraints: BoxConstraints(
-          minHeight: 200,
-          maxHeight: MediaQuery.of(context).size.height - 148,
-        ),
-        padding: EdgeInsets.all(10),
-        color: Color(0xffEBEBEB),
-        child: ListView(
-          padding: EdgeInsets.only(top: 5, bottom: 5),
-          scrollDirection: Axis.vertical,
-          children: [
-            Column(
-                children: context
-                    .read<Repository>()
-                    .cities
-                    .map((e) => AdItemWidget(
-                          itemIcon: Icons.accessible_forward,
-                          itemDate: e.date,
-                          itemName: e.nameOfTrip,
-                          itemAuthor: e.author.name,
-                          itemDescription: e.description,
-                          authorId: e.author.id,
-                        )).toList()),
-          ],
+      body:  RefreshIndicator(
+        onRefresh: refresh,
+        child: Container(
+          constraints: BoxConstraints(
+            minHeight: 200,
+            maxHeight: MediaQuery.of(context).size.height - 148,
+          ),
+          padding: EdgeInsets.all(10),
+          color: Color(0xffEBEBEB),
+          child: ListView(
+            padding: EdgeInsets.only(top: 5, bottom: 5),
+            scrollDirection: Axis.vertical,
+            children: [
+              Column(
+                  children: context
+                      .read<Repository>()
+                      .cities
+                      .map((e) => AdItemWidget(
+                    itemIcon: Icons.accessible_forward,
+                    itemDate: e.date,
+                    itemName: e.nameOfTrip,
+                    itemAuthor: e.author.name,
+                    itemDescription: e.description,
+                    authorId: e.author.id,
+                  )).toList()),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
