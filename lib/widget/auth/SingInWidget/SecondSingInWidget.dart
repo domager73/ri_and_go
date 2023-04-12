@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ri_and_go/Repository/Repository.dart';
 import 'package:ri_and_go/Theme/app_authTextStyles.dart';
+import 'package:ri_and_go/Url/apiSetting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SecondSingWidget extends StatefulWidget {
@@ -71,14 +74,32 @@ class _FormWidgetState extends State<_FormWidget> {
     return response.statusCode??-1;
   }
 
-  void register() async {
-    int code = await getRegisterCode();
-    if (code == 200) {
-      Navigator.of(context).pushNamed('carusel');
+  Future<int> userExist() async {
+    //dio.get(apiSettings.baseUrl + 'Users/Login/${_loginTextController.text}/${_passwordTextController.text}').then((response) => {existsUser = response.data});
+    final response = await dio.get(apiSettings.baseUrl + 'Users/Login/${context.read<Repository>().emailAddress}/${_passwordTextController.text}');
+    if (response.data != -1) {
+      context.read<Repository>().setId(newId: response.data);
+      print(context.read<Repository>().id);
+    }
+    return response.data;
+  }
 
+  void login() async {
+    int id = await userExist();
+    if (id != -1) {
       await _setLogin();
       await _setPassword();
       await _setId(context.read<Repository>().id);
+    }
+  }
+
+
+  void register() async {
+    int code = await getRegisterCode();
+    if (code == 200) {
+      login();
+      Navigator.of(context).pushNamed('carusel');
+
     } else if (code == 208){
       messageType == 1;
       context.read<Repository>().emailEmploy();
@@ -100,7 +121,7 @@ class _FormWidgetState extends State<_FormWidget> {
 
   Future _setId(id) async {
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString('password', id.toString());
+    prefs.setInt('id', id);
   }
 
   void vizible() {

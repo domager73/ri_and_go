@@ -26,13 +26,13 @@ class _EditUserState extends State<EditUser> {
   @override
   Widget build(BuildContext context) {
     _nameTextController.text = _nameTextController.text == '' ?
-    context.read<Repository>().name ?? "" : _nameTextController.text;
+    context.read<Repository>().name: _nameTextController.text;
     _emailTextController.text = _emailTextController.text == '' ?
     context.read<Repository>().emailAddress ?? "" : _emailTextController.text;
     _phoneTextController.text = _phoneTextController.text == '' ?
     context.read<Repository>().telephoneNumber ?? "" : _phoneTextController.text;
     _urlTextController.text = _urlTextController.text == '' ?
-    context.read<Repository>().contactUrl ?? "" : _urlTextController.text;
+    context.read<Repository>().contactUrl : _urlTextController.text;
 
 
     return

@@ -23,8 +23,12 @@ class _ProfileState extends State<Profile> {
     var prefs = await SharedPreferences.getInstance();
     prefs.remove('login');
     prefs.remove('password');
+    prefs.remove('id');
+    context.read<Repository>().logOut();
     Navigator.of(context).pushNamed('login');
   }
+
+
 
   Future loadUserTrips() async {
     final dio = Dio();

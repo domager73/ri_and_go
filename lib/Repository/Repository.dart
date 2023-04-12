@@ -15,6 +15,13 @@ class Repository{
   bool emailEmployed = false;
   int? searchUserId;
 
+  void logOut() {
+    contactUrl = '';
+    name = '';
+    emailAddress = '';
+    telephoneNumber = '';
+  }
+
   void setSearchUserId(int id) {
     searchUserId = id;
   }
