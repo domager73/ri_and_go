@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
             'map' : (context) => MapScreen(),
           },
 
-          initialRoute: 'login',
+          initialRoute: 'map',
         ),
     );
   }

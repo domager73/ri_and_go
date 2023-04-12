@@ -75,6 +75,7 @@ class _FormWidgetState extends State<_FormWidget> {
       Navigator.of(context).pushNamed('mainScreen');
       print('reg');
       context.read<Repository>().password = prefs.getString('password');
+      context.read<Repository>().id = prefs.getInt('id');
     }
   }
 
@@ -95,6 +96,7 @@ class _FormWidgetState extends State<_FormWidget> {
     context.read<Repository>().setName(text: response.data['name']);
     context.read<Repository>().setEmailAddress(text:  response.data['email']);
     context.read<Repository>().setTelephoneNumber(text:  response.data['phoneNumber']);
+    context.read<Repository>().setUrl(newUrl:  response.data['contactUrl']);
     return 1;
   }
 
@@ -123,7 +125,7 @@ class _FormWidgetState extends State<_FormWidget> {
   }
   Future _setId(id) async {
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString('password', id.toString());
+    prefs.setString('id', id.toString());
   }
 
   void vizible(){

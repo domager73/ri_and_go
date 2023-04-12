@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ri_and_go/Card/card.dart';
 import 'package:ri_and_go/Repository/Repository.dart';
 import 'package:ri_and_go/Theme/app_profileStyles.dart';
+import 'package:ri_and_go/Url/apiSetting.dart';
 import 'package:ri_and_go/widget/mainWidget/Search/mainSearch.dart';
 import 'package:ri_and_go/widget/mainWidget/accountInfo/AdItemWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -80,24 +81,24 @@ class _EditUserState extends State<EditUser> {
                                 children: [
                                   Row(
                                     children: _urlTextController.text == ''
-                                        ? [
-                                            Text(
-                                              'Url соцсетей',
-                                              style: profileTextes.Elements,
-                                            )
-                                          ]
-                                        : [
-                                            Text(
-                                              'Url соцсетей',
-                                              style: profileTextes.Elements,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Image(
-                                                image: AssetImage(
-                                                    'Assets/img/urlAlert.png')),
-                                          ],
+                                        ?  [
+                                    Text(
+                                      'Url соцсетей',
+                                      style: profileTextes.Elements,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Image(
+                                        image: AssetImage(
+                                            'Assets/img/urlAlert.png')),
+                                    ]
+                                        :[
+                                      Text(
+                                        'Url соцсетей',
+                                        style: profileTextes.Elements,
+                                      )
+                                    ],
                                   ),
                                   TextField(
                                     decoration: InputDecoration(
@@ -162,7 +163,6 @@ class _ButtonSaveState extends State<ButtonSave> {
 
   void sendChanges() {
     final dio = Dio();
-    var apiSettings;
     dio.post(apiSettings.baseUrl + 'Users/SetUser', data: {
       'id': context.read<Repository>().id,
       'name': widget.name,

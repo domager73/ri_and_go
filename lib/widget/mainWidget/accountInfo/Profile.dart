@@ -47,6 +47,7 @@ class _ProfileState extends State<Profile> {
     context.read<Repository>().setName(text: response.data['name']);
     context.read<Repository>().setEmailAddress(text:  response.data['email']);
     context.read<Repository>().setTelephoneNumber(text:  response.data['phoneNumber']);
+    context.read<Repository>().setUrl(newUrl:  response.data['contactUrl']);
     return 1;
   }
 
