@@ -4,7 +4,7 @@ abstract class profileTextes {
   static const Elements = TextStyle(
       fontSize: 21,
       fontStyle: FontStyle.italic,
-      fontWeight: FontWeight.w100,
+      fontWeight: FontWeight.w300,
       color: Color(0xff4D361C)
   );
 

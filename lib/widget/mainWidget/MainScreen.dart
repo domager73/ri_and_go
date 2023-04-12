@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:ri_and_go/widget/mainWidget/AddWidget.dart';
+import 'package:ri_and_go/widget/addCardWidget/mainAddWidget.dart';
 import 'package:ri_and_go/widget/mainWidget/Search/mainSearch.dart';
 import 'package:ri_and_go/widget/mainWidget/accountInfo/Profile.dart';
 
@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   static List<Widget> _widgetOptions = <Widget>[
     mainSearch(),
-    AddWidget(),
+    AddMainUserWidget(),
     Profile(),
   ];
 

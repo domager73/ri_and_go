@@ -75,20 +75,18 @@ class _FormWidgetState extends State<_FormWidget> {
       Navigator.of(context).pushNamed('mainScreen');
       print('reg');
       context.read<Repository>().password = prefs.getString('password');
-      context.read<Repository>().id = prefs.getInt('id');
+      context.read<Repository>().id = prefs.getInt('id')??1;
     }
   }
 
 
-  bool existsUser = false;
-
-  Future<bool> userExist() async {
+  Future<int> userExist() async {
     //dio.get(apiSettings.baseUrl + 'Users/Login/${_loginTextController.text}/${_passwordTextController.text}').then((response) => {existsUser = response.data});
     final response = await dio.get(apiSettings.baseUrl + 'Users/Login/${_loginTextController.text}/${_passwordTextController.text}');
     if (response.data != -1) {
       context.read<Repository>().setId(newId: response.data);
     }
-    return response.data != -1;
+    return response.data;
   }
 
   Future<int> loadProfileInfo() async {
@@ -102,13 +100,14 @@ class _FormWidgetState extends State<_FormWidget> {
 
 
   void login() async {
-    if (await userExist()) {
+    int id = await userExist();
+    if (id != -1) {
       await loadProfileInfo();
       Navigator.of(context).pushNamed('mainScreen');
 
       await _setLogin();
       await _setPassword();
-      await _setId(context.read<Repository>().id);
+      await _setId(id);
     } else {
       normalWrite = false;
       setState(() {});
@@ -121,7 +120,7 @@ class _FormWidgetState extends State<_FormWidget> {
   }
   Future _setPassword() async {
     var prefs = await SharedPreferences.getInstance();
-    prefs.setString('password', _loginTextController.text);
+    prefs.setString('password', _passwordTextController.text);
   }
   Future _setId(id) async {
     var prefs = await SharedPreferences.getInstance();

@@ -17,6 +17,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  bool flag = true;
+  
   void logOut() async {
     var prefs = await SharedPreferences.getInstance();
     prefs.remove('login');
@@ -24,37 +26,51 @@ class _ProfileState extends State<Profile> {
     Navigator.of(context).pushNamed('login');
   }
 
-  void loadUserTrips() async {
+  Future loadUserTrips() async {
     final dio = Dio();
-    final response = await dio.get(apiSettings.baseUrl + 'Trips/GetUserTrips/${context.read<Repository>().id}');
+    final response = await dio.get(apiSettings.baseUrl +
+        'Trips/GetUserTrips/${context.read<Repository>().id}');
     List data = response.data;
     context.read<Repository>().resetTripList();
     data.forEach((trip) {
-      trip = card.CardTrip(nameOfTrip: trip['name'], date: trip['date'].toString(), author: card.User(name: context.read<Repository>().name??"", id: context.read<Repository>().id??0), description: trip['description']);
+      trip = card.CardTrip(
+          nameOfTrip: trip['name'],
+          date: trip['departureTime'].toString(),
+          author: card.User(
+              name: context.read<Repository>().name ?? "",
+              id: context.read<Repository>().id ?? 0),
+          description: trip['description']);
       context.read<Repository>().addownTrip(trip);
     });
+    flag = false;
   }
 
   @override
   void initState() {
     super.initState();
-    loadUserTrips();
   }
 
   Future<int> loadProfileInfo() async {
     final dio = Dio();
-    final response = await dio.get(apiSettings.baseUrl + 'Users/Get/${context.read<Repository>().id}');
+    print(apiSettings.baseUrl + 'Users/Get/${context.read<Repository>().id}');
+    final response = await dio.get(
+        apiSettings.baseUrl + 'Users/Get/${context.read<Repository>().id}');
     context.read<Repository>().setName(text: response.data['name']);
-    context.read<Repository>().setEmailAddress(text:  response.data['email']);
-    context.read<Repository>().setTelephoneNumber(text:  response.data['phoneNumber']);
-    context.read<Repository>().setUrl(newUrl:  response.data['contactUrl']);
+    context.read<Repository>().setEmailAddress(text: response.data['email']);
+    context
+        .read<Repository>()
+        .setTelephoneNumber(text: response.data['phoneNumber']);
+    context.read<Repository>().setUrl(newUrl: response.data['contactUrl']);
     return 1;
   }
 
   @override
   Widget build(BuildContext context) {
-    loadProfileInfo();
-    loadUserTrips();
+    if (flag) {
+      loadProfileInfo().then((value) => setState(() {}));
+      loadUserTrips().then((value) => setState(() {}));
+    }
+
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -141,7 +157,6 @@ class _ProfileState extends State<Profile> {
   }
 }
 
-
 class _Info_Field extends StatefulWidget {
   String name;
   String value;
@@ -222,15 +237,15 @@ class _ElementsState extends State<_Elements> {
           children: [
             _Info_Field(
               name: 'Name',
-              value: context.read<Repository>().name??"",
+              value: context.read<Repository>().name,
             ),
             _Info_Field(
               name: 'Email',
-              value: context.read<Repository>().emailAddress??"",
+              value: context.read<Repository>().emailAddress ?? "",
             ),
             _Info_Field(
               name: 'Telephone',
-              value: context.read<Repository>().telephoneNumber??"",
+              value: context.read<Repository>().telephoneNumber ?? "",
             ),
           ],
         )
@@ -238,7 +253,6 @@ class _ElementsState extends State<_Elements> {
     );
   }
 }
-
 
 class _MyTrip extends StatelessWidget {
   _MyTrip({Key? key}) : super(key: key);
@@ -279,6 +293,7 @@ class _MyTrip extends StatelessWidget {
                                 itemName: e.nameOfTrip,
                                 itemAuthor: e.author.name,
                                 itemDescription: e.description,
+                                authorId: e.author.id,
                               ))
                           .toList()),
                 ],

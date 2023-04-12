@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ri_and_go/Repository/Repository.dart';
+import 'package:ri_and_go/widget/addCardWidget/mainAddWidget.dart';
 import 'package:ri_and_go/widget/auth/SingInWidget/SecondSingInWidget.dart';
 import 'package:ri_and_go/widget/auth/SingInWidget/SingInScreenWidget.dart';
-import 'package:ri_and_go/widget/mainWidget/AddWidget.dart';
 import 'package:ri_and_go/widget/mainWidget/Search/Search.dart';
 import 'package:ri_and_go/widget/mainWidget/Search/mainSearch.dart';
 import 'package:ri_and_go/widget/mainWidget/accountInfo/EditUser.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
             'secondSingin': (context) => SecondSingWidget(),
             'profile' : (context) => Profile(),
             'mainScreen' : (context) => MainScreen(),
-            'add' : (context) => AddWidget(),
+            'add' : (context) => AddMainUserWidget(),
             'search' : (context) => Search(),
             'userInfo' : (context) => UserInfo(),
             'mainSearch' : (context) => mainSearch(),

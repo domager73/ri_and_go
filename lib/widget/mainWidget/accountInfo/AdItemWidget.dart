@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ri_and_go/Repository/Repository.dart';
 import 'package:ri_and_go/Theme/app_cardStyles.dart';
 
 class AdItemWidget extends StatefulWidget {
@@ -8,6 +10,7 @@ class AdItemWidget extends StatefulWidget {
   String itemDate;
   String itemDescription;
   String itemAuthor;
+  int authorId;
 
   AdItemWidget({
     Key? key,
@@ -16,6 +19,7 @@ class AdItemWidget extends StatefulWidget {
     required this.itemDate,
     required this.itemAuthor,
     required this.itemDescription,
+    required this.authorId
   }) : super(key: key);
 
   @override
@@ -50,6 +54,7 @@ class _AdItemWidgetState extends State<AdItemWidget> {
             _cardDescription(
               description: widget.itemDescription,
               authorName: widget.itemAuthor,
+              authorId: widget.authorId,
             ),
           ]
               : [
@@ -135,9 +140,10 @@ class _mainCardBodyState extends State<_mainCardBody> {
 class _cardDescription extends StatefulWidget {
   final String description;
   final String authorName;
+  final int authorId;
 
   const _cardDescription(
-      {Key? key, required this.description, required this.authorName})
+      {Key? key, required this.description, required this.authorName, required this.authorId})
       : super(key: key);
 
   @override
@@ -146,6 +152,7 @@ class _cardDescription extends StatefulWidget {
 
 class _cardDescriptionState extends State<_cardDescription> {
   void viewAuthor() {
+    context.read<Repository>().setSearchUserId(widget.authorId);
     Navigator.of(context).pushNamed('userInfo');
   }
 

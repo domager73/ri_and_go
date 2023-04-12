@@ -9,9 +9,15 @@ class Repository{
   String? password;
   String contactUrl = '';
   bool urlExist = false;
-  List<CardTitle> cities = [CardTitle(nameOfTrip: 'afasdfasdfasdfaassdfsfasd', date: '12.23.2003', author: 'Я', description: 'Let`t go drive', )];
+  //List<CardTitle> cities = [CardTitle(nameOfTrip: 'afasdfasdfasdfaassdfsfasd', date: '12.23.2003', author: 'Я', description: 'Let`t go drive', )];
+  List<CardTrip> cities = [];
   List<CardTrip> userCards = [];
   bool emailEmployed = false;
+  int? searchUserId;
+
+  void setSearchUserId(int id) {
+    searchUserId = id;
+  }
 
   void resetTripList() {
     userCards = [];
