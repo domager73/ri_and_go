@@ -48,7 +48,7 @@ class _ProfileState extends State<Profile> {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('Assets/img/SearchBackground.png'),
+              image: AssetImage('Assets/img/SearchBackground.jpg'),
               fit: BoxFit.cover,
             ),
           ),
@@ -128,6 +128,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
+
 
 class _Info_Field extends StatefulWidget {
   String name;
@@ -249,7 +250,7 @@ class _MyTrip extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.only(left: 10, right: 10),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.27,
               padding: EdgeInsets.all(10),
               color: Color(0xffEBEBEB),
               child: ListView(

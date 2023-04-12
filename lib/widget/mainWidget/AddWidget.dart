@@ -15,7 +15,7 @@ class _AddWidgetState extends State<AddWidget> {
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("Assets/img/SearchBackground.png"),
+              image: AssetImage("Assets/img/SearchBackground.jpg"),
               fit: BoxFit.cover,
             ),
           ),

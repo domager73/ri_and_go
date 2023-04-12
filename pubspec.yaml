@@ -39,7 +39,7 @@ flutter:
   assets:
     - Assets/img/Vector.png
     - Assets/img/avatar.jpg
-    - Assets/img/SearchBackground.png
     - Assets/img/urlAlert.png
     - Assets/img/Group.png
     - Assets/img/Word.png
+    - Assets/img/SearchBackground.jpg

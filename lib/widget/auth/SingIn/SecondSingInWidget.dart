@@ -114,7 +114,7 @@ class _FormWidgetState extends State<_FormWidget> {
             ),
             child: Text(
               'Regester',
-              style: authTextes.LoginButton,
+              style: authStyles.LoginButton,
             ),
           ),
         ],
@@ -141,7 +141,7 @@ class _ButtonRegesState extends State<_ButtonReges> {
           onPressed: () {},
           child: Text(
               'Register',
-              style: authTextes.buttonTextStyleActive,
+              style: authStyles.buttonTextStyleActive,
           ),
         )
       ],
@@ -170,7 +170,7 @@ class _ButtonSingInState extends State<_ButtonSingIn> {
           icon: Icon(Icons.arrow_back, color: Color(0xffA6A6A6)),
           label: Text(
               "back",
-              style: authTextes.smallButtons,
+              style: authStyles.smallButtons,
           ),
           onPressed: navigateBack,
         ),
@@ -179,7 +179,7 @@ class _ButtonSingInState extends State<_ButtonSingIn> {
           onPressed: navigateLogIn,
           child: Text(
             'Log in',
-            style: authTextes.smallButtons,
+            style: authStyles.smallButtons,
           ),
         ),
       ],

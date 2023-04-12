@@ -79,7 +79,7 @@ class _ainCarouselState extends State<MainCarousel> {
       width: isSelected ? 12 : 8,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isSelected ? Colors.black : Colors.green,
+        color: isSelected ? Colors.black : Colors.orangeAccent,
       ),
     );
   }
