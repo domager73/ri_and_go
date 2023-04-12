@@ -22,116 +22,113 @@ class _EditUserState extends State<EditUser> {
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _phoneTextController = TextEditingController();
   TextEditingController _urlTextController = TextEditingController();
+  bool flag = true;
 
   @override
   Widget build(BuildContext context) {
-    _nameTextController.text = _nameTextController.text == '' ?
-    context.read<Repository>().name: _nameTextController.text;
-    _emailTextController.text = _emailTextController.text == '' ?
-    context.read<Repository>().emailAddress ?? "" : _emailTextController.text;
-    _phoneTextController.text = _phoneTextController.text == '' ?
-    context.read<Repository>().telephoneNumber ?? "" : _phoneTextController.text;
-    _urlTextController.text = _urlTextController.text == '' ?
-    context.read<Repository>().contactUrl : _urlTextController.text;
+    if (flag) {
+      _nameTextController.text = context.read<Repository>().name;
+      _emailTextController.text = context.read<Repository>().emailAddress ?? "";
+      _phoneTextController.text =
+          context.read<Repository>().telephoneNumber ?? "";
+      _urlTextController.text = context.read<Repository>().contactUrl;
+      flag = false;
+    }
 
-
-    return
-      SafeArea(child: Scaffold(
-
-        body: SingleChildScrollView(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('Assets/img/SearchBackground.jpg'),
-                fit: BoxFit.cover,
-              ),
+    return SafeArea(
+        child: Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('Assets/img/SearchBackground.jpg'),
+              fit: BoxFit.cover,
             ),
-            child: Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(padding: EdgeInsets.only(top: 10)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Padding(padding: EdgeInsets.only(top: 15)),
-                      //SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-                      SizedBox(width: 100),
-                      _Avatar(),
-                      ButtonCansel(),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  //_Elements(),
-                  Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _Info_Field(
-                                name: 'Имя', controller: _nameTextController),
-                            _Info_Field(
-                                name: 'Email', controller: _emailTextController),
-                            _Info_Field(
-                                name: 'Телефон',
-                                controller: _phoneTextController),
-                            Padding(
-                                padding:
-                                EdgeInsets.only(top: 10, left: 20, bottom: 15),
-                                child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: _urlTextController.text == ''
-                                            ? [
-                                          Text(
-                                            'Url соцсетей',
-                                            style: profileTextes.Elements,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Image(
-                                              image: AssetImage(
-                                                  'Assets/img/urlAlert.png')),
-                                        ]
-                                            : [
-                                          Text(
-                                            'Url соцсетей',
-                                            style: profileTextes.Elements,
-                                          )
-                                        ],
-                                      ),
-                                      TextField(
-                                        decoration: InputDecoration(
-                                            labelStyle: profileTextes.Info,
-                                            hintStyle: profileTextes.Info,
-                                            //hintText: 'ы',
-                                            hoverColor: Colors.blueGrey,
-                                            suffixIcon: Icon(
-                                                Icons.edit_outlined)),
-                                        controller: _urlTextController,
-                                      ),
-                                    ]))
-                          ])),
+          ),
+          child: Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 10)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 15)),
+                    //SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+                    SizedBox(width: 100),
+                    _Avatar(),
+                    ButtonCansel(),
+                  ],
+                ),
+                SizedBox(height: 5),
+                //_Elements(),
+                Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _Info_Field(
+                              name: 'Имя', controller: _nameTextController),
+                          _Info_Field(
+                              name: 'Email', controller: _emailTextController),
+                          _Info_Field(
+                              name: 'Телефон',
+                              controller: _phoneTextController),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                  top: 10, left: 20, bottom: 15),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: _urlTextController.text == ''
+                                          ? [
+                                              Text(
+                                                'Url соцсетей',
+                                                style: profileTextes.Elements,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Image(
+                                                  image: AssetImage(
+                                                      'Assets/img/urlAlert.png')),
+                                            ]
+                                          : [
+                                              Text(
+                                                'Url соцсетей',
+                                                style: profileTextes.Elements,
+                                              )
+                                            ],
+                                    ),
+                                    TextField(
+                                      decoration: InputDecoration(
+                                          labelStyle: profileTextes.Info,
+                                          hintStyle: profileTextes.Info,
+                                          //hintText: 'ы',
+                                          hoverColor: Colors.blueGrey,
+                                          suffixIcon:
+                                              Icon(Icons.edit_outlined)),
+                                      controller: _urlTextController,
+                                    ),
+                                  ]))
+                        ])),
 
-                  ButtonSave(
-                    name: _nameTextController.text,
-                    email: _emailTextController.text,
-                    phone: _phoneTextController.text,
-                    url: _urlTextController.text,
-                    password: context
-                        .read<Repository>()
-                        .password ?? "",
-                  ),
-                ],
-              ),
+                ButtonSave(
+                  name: _nameTextController.text,
+                  email: _emailTextController.text,
+                  phone: _phoneTextController.text,
+                  url: _urlTextController.text,
+                  password: context.read<Repository>().password ?? "",
+                ),
+              ],
             ),
           ),
         ),
-      ));
+      ),
+    ));
   }
 }
 
@@ -149,11 +146,13 @@ class ButtonSave extends StatefulWidget {
   String url;
   String password;
 
-  ButtonSave({Key? key,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.url, required this.password})
+  ButtonSave(
+      {Key? key,
+      required this.name,
+      required this.email,
+      required this.phone,
+      required this.url,
+      required this.password})
       : super(key: key);
 
   @override
@@ -173,9 +172,7 @@ class _ButtonSaveState extends State<ButtonSave> {
   void sendChanges() {
     final dio = Dio();
     dio.post(apiSettings.baseUrl + 'Users/SetUser', data: {
-      'id': context
-          .read<Repository>()
-          .id,
+      'id': context.read<Repository>().id,
       'name': widget.name,
       'email': widget.email,
       'phoneNumber': widget.phone,
@@ -185,8 +182,8 @@ class _ButtonSaveState extends State<ButtonSave> {
   }
 
   void commitChanges() {
-    repositoryCommit().then((value) =>
-        Navigator.of(context).pushNamed('mainScreen'));
+    repositoryCommit()
+        .then((value) => Navigator.of(context).pushNamed('mainScreen'));
     sendChanges();
   }
 
@@ -197,18 +194,15 @@ class _ButtonSaveState extends State<ButtonSave> {
           style: TextStyle(color: Colors.white, fontSize: 20)),
       style: ButtonStyle(
         minimumSize: MaterialStateProperty.all<Size>(
-            Size(MediaQuery
-                .of(context)
-                .size
-                .width * 0.8, 50)),
+            Size(MediaQuery.of(context).size.width * 0.8, 50)),
         padding: MaterialStateProperty.all<EdgeInsets>(
             EdgeInsets.fromLTRB(10, 15, 0, 15)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            )),
+          borderRadius: BorderRadius.circular(10),
+        )),
         backgroundColor:
-        MaterialStateProperty.all<Color>(Color.fromRGBO(226, 143, 143, 1)),
+            MaterialStateProperty.all<Color>(Color.fromRGBO(226, 143, 143, 1)),
       ),
     );
   }
