@@ -67,14 +67,17 @@ class _FormWidgetState extends State<_FormWidget> {
   bool reg = false;
   final dio = Dio();
 
-  Future _isRegistered() async {
+  void _isRegistered() async {
     var prefs = await SharedPreferences.getInstance();
     reg = (prefs.getString('login') != null &&
         prefs.getString('password') != null);
     if (reg) {
       Navigator.of(context).pushNamed('mainScreen');
+      print('reg');
+      context.read<Repository>().password = prefs.getString('password');
     }
   }
+
 
   bool existsUser = false;
 
@@ -132,6 +135,7 @@ class _FormWidgetState extends State<_FormWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _isRegistered();
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Column(

@@ -17,7 +17,6 @@ class _SearchState extends State<mainSearch> {
     Navigator.of(context).pushNamed('search');
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,44 +36,36 @@ class _SearchState extends State<mainSearch> {
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("Assets/img/SearchBackground.png"),
-          ),
+        constraints: BoxConstraints(
+          minHeight: 200,
+          maxHeight: MediaQuery.of(context).size.height - 148,
         ),
-        child: Container(
-          constraints: BoxConstraints(
-            minHeight: 200,
-            maxHeight: MediaQuery.of(context).size.height - 148,
-          ),
-          padding: EdgeInsets.all(10),
-          color: Color(0xffEBEBEB),
-          child: ListView(
-            padding: EdgeInsets.only(top: 5, bottom: 5),
-            scrollDirection: Axis.vertical,
-            children: [
-              Column(
-                  children: context
-                      .read<Repository>()
-                      .cities
-                      .map((e) => AdItemWidget(
-                            itemIcon: Icons.accessible_forward,
-                            itemDate: e.date,
-                            itemName: e.nameOfTrip,
-                            itemAuthor: e.author,
-                            itemDescription: e.description,
-                          ))
-                      .toList()),
-
-            ],
-          ),
+        padding: EdgeInsets.all(10),
+        color: Color(0xffEBEBEB),
+        child: ListView(
+          padding: EdgeInsets.only(top: 5, bottom: 5),
+          scrollDirection: Axis.vertical,
+          children: [
+            Column(
+                children: context
+                    .read<Repository>()
+                    .cities
+                    .map((e) => AdItemWidget(
+                          itemIcon: Icons.accessible_forward,
+                          itemDate: e.date,
+                          itemName: e.nameOfTrip,
+                          itemAuthor: e.author,
+                          itemDescription: e.description,
+                        ))
+                    .toList()),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: openSearchMenu,
         backgroundColor: Color(0xffFFB74B),
         child: Icon(Icons.search_outlined, color: Colors.white),
-      ) /* add child content here */,
-    );
+      ),
+    ); /* add child content here */
   }
 }

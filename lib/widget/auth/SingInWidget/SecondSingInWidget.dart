@@ -74,7 +74,7 @@ class _FormWidgetState extends State<_FormWidget> {
   void register() async {
     int code = await getRegisterCode();
     if (code == 200) {
-      Navigator.of(context).pushNamed('mainScreen');
+      Navigator.of(context).pushNamed('carusel');
 
       await _setLogin();
       await _setPassword();
@@ -94,7 +94,9 @@ class _FormWidgetState extends State<_FormWidget> {
   Future _setPassword() async {
     var prefs = await SharedPreferences.getInstance();
     prefs.setString('password', _passwordTextController.text);
+    context.read<Repository>().password = prefs.getString('password');
   }
+
 
   Future _setId(id) async {
     var prefs = await SharedPreferences.getInstance();
@@ -109,8 +111,6 @@ class _FormWidgetState extends State<_FormWidget> {
 
   void navigateNext() {
     if (_passwordTextController.text == _secondPasswordTextController.text) {
-      Navigator.of(context).pushNamed('login');
-      // TODO
       context.read<Repository>().setName(text: _nameTextController.text);
       context.read<Repository>().setPassword(
           text: _passwordTextController.text);

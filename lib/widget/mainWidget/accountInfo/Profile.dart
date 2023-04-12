@@ -40,9 +40,18 @@ class _ProfileState extends State<Profile> {
     loadUserTrips();
   }
 
+  Future<int> loadProfileInfo() async {
+    final dio = Dio();
+    final response = await dio.get(apiSettings.baseUrl + 'Users/Get/${context.read<Repository>().id}');
+    context.read<Repository>().setName(text: response.data['name']);
+    context.read<Repository>().setEmailAddress(text:  response.data['email']);
+    context.read<Repository>().setTelephoneNumber(text:  response.data['phoneNumber']);
+    return 1;
+  }
 
   @override
   Widget build(BuildContext context) {
+    loadProfileInfo();
     return SafeArea(
       child: Scaffold(
         body: Container(

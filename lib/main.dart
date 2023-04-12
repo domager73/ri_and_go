@@ -46,10 +46,10 @@ class MyApp extends StatelessWidget {
             'mainSearch' : (context) => mainSearch(),
             'editUser' : (context) => EditUser(),
             'carusel' : (context) => MainCarousel(),
-            'map' : (context) => MyMap(),
+            'map' : (context) => MapScreen(),
           },
 
-          initialRoute: 'carusel',
+          initialRoute: 'login',
         ),
     );
   }

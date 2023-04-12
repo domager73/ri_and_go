@@ -69,6 +69,14 @@ class _FormWidgetState extends State<_FormWidget> {
     if (checkedNull(_emailAddressTextController.text,
             _telephoneNumberTextController.text) &&
         _telephoneNumberTextController.text.length > 15) {
+      _telephoneNumberTextController.text = _telephoneNumberTextController.text
+          .replaceAll('+', '')
+          .replaceAll('-', '')
+          .replaceAll(' ', '')
+          .replaceAll('(', '')
+          .replaceAll(')', '');
+      print(_telephoneNumberTextController.text);
+
       Navigator.of(context).pushNamed('secondSingin');
       context
           .read<Repository>()
@@ -124,7 +132,7 @@ class _FormWidgetState extends State<_FormWidget> {
               style: authStyles.LoginButton,
             ),
           ),
-          if(errorTextEmail || errorTextPhoneNumber)...[
+          if (errorTextEmail || errorTextPhoneNumber) ...[
             Text(
               'Введенно неверное значение',
               style: TextStyle(
@@ -132,7 +140,7 @@ class _FormWidgetState extends State<_FormWidget> {
                 fontSize: 17,
               ),
             ),
-          ] else if (context.read<Repository>().emailEmployed) ... [
+          ] else if (context.read<Repository>().emailEmployed) ...[
             Text(
               'Email занят',
               style: TextStyle(

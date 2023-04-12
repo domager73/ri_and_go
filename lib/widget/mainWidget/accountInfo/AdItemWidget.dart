@@ -50,7 +50,7 @@ class _AdItemWidgetState extends State<AdItemWidget> {
             _cardDescription(
               description: widget.itemDescription,
               authorName: widget.itemAuthor,
-            )
+            ),
           ]
               : [
             _mainCardBody(
@@ -94,7 +94,12 @@ class _mainCardBodyState extends State<_mainCardBody> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.itemName, style: mainTextes.title),
+
+          FittedBox(
+            fit: BoxFit.fill,
+            child: Text(widget.itemName, style: mainTextes.title),
+          ),
+
           SizedBox(
             height: 10,
           ),
@@ -159,25 +164,48 @@ class _cardDescriptionState extends State<_cardDescription> {
               Text('Описание', style: descriptionTextes.title),
               Padding(padding: EdgeInsets.only(top: 10)),
               Container(
-                constraints: BoxConstraints(
-                    minWidth: 265,
-                    maxWidth: MediaQuery.of(context).size.width * 0.8),
+                width: MediaQuery.of(context).size.width * 0.8,
                 height: 150,
                 child: Text(widget.description, style: descriptionTextes.title),
               ),
-              Row(
-                children: [
-                  Text(
-                    'Автор: ',
-                    style: descriptionTextes.text,
-                  ),
-                  TextButton(
-                      onPressed: viewAuthor,
-                      child: Text(
-                        widget.authorName,
-                        style: descriptionTextes.author,
-                      ))
-                ],
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Row(
+                  children: [
+                    Text(
+                      'Автор: ',
+                      style: descriptionTextes.text,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.65,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                              onPressed: viewAuthor,
+                              child: Text(
+                                widget.authorName,
+                                style: descriptionTextes.author,
+                              )),
+                          TextButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context){
+                                      return AlertDialog(
+                                        title: Text('Вы добавлены'),
+                                      );
+                                    }
+                                );
+                              },
+                              child: Text(
+                                'хочу',
+                              )),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               )
             ],
           ),

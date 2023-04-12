@@ -78,6 +78,16 @@ class _FormAreaState extends State<_FormArea> {
   String? name;
   String? descr;
 
+  void addCards(){
+    placeFrom = _textFieldController1.text;
+    placeWhere = _textFieldController2.text;
+    time = _textFieldController3.text;
+    name = _textFieldController4.text;
+    descr = _textFieldController5.text;
+    setState(() {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -121,22 +131,9 @@ class _FormAreaState extends State<_FormArea> {
         ),
         //TODO
         TextButton(
-          onPressed: () {
-            setState(() {
-              placeFrom = _textFieldController1.text;
-              placeWhere = _textFieldController2.text;
-              time = _textFieldController3.text;
-              name = _textFieldController4.text;
-              descr = _textFieldController5.text;
-              print(placeFrom);
-              print(placeWhere);
-              print(time);
-              print(name);
-              print(descr);
-            });
-          },
+          onPressed: addCards,
           child: Text(
-            'Click me',
+            'Поиск',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,

@@ -9,7 +9,7 @@ class Repository{
   String? password;
   String contactUrl = '';
   bool urlExist = false;
-  List<CardTitle> cities = [CardTitle(nameOfTrip: 'asdfasd', date: '12.23.2003', author: 'Я', description: 'Let`t go drive', )];
+  List<CardTitle> cities = [CardTitle(nameOfTrip: 'afasdfasdfasdfaassdfsfasd', date: '12.23.2003', author: 'Я', description: 'Let`t go drive', )];
   List<CardTrip> userCards = [];
   bool emailEmployed = false;
 

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,23 +17,28 @@ class EditUser extends StatefulWidget {
 }
 
 class _EditUserState extends State<EditUser> {
+  TextEditingController _nameTextController = TextEditingController();
+  TextEditingController _emailTextController = TextEditingController();
+  TextEditingController _phoneTextController = TextEditingController();
+  TextEditingController _urlTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController _nameTextController =
-        TextEditingController(text: context.read<Repository>().name ?? "");
-    TextEditingController _emailTextController =
-        TextEditingController(text: context.read<Repository>().emailAddress);
-    TextEditingController _phoneTextController =
-        TextEditingController(text: context.read<Repository>().telephoneNumber);
-    TextEditingController _urlTextController =
-        TextEditingController(text: context.read<Repository>().contactUrl);
+    _nameTextController.text = _nameTextController.text == '' ?
+    context.read<Repository>().name ?? "" : _nameTextController.text;
+    _emailTextController.text = _emailTextController.text == '' ?
+    context.read<Repository>().emailAddress ?? "" : _emailTextController.text;
+    _phoneTextController.text = _phoneTextController.text == '' ?
+    context.read<Repository>().telephoneNumber ?? "" : _phoneTextController.text;
+    _urlTextController.text = _urlTextController.text == '' ?
+    context.read<Repository>().contactUrl ?? "" : _urlTextController.text;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('Assets/img/SearchBackground.png'),
+            image: AssetImage('Assets/img/SearchBackground.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -109,7 +115,9 @@ class _EditUserState extends State<EditUser> {
                   name: _nameTextController.text,
                   email: _emailTextController.text,
                   phone: _phoneTextController.text,
-                  url: _urlTextController.text),
+                  url: _urlTextController.text,
+                  password: context.read<Repository>().password??"",
+              ),
             ],
           ),
         ),
@@ -130,12 +138,19 @@ class ButtonSave extends StatefulWidget {
   String email;
   String phone;
   String url;
-  ButtonSave({Key? key, required this.name, required this.email, required this.phone, required this.url}) : super(key: key);
+  String password;
+
+  ButtonSave(
+      {Key? key,
+        required this.name,
+        required this.email,
+        required this.phone,
+        required this.url, required this.password})
+      : super(key: key);
 
   @override
   _ButtonSaveState createState() => _ButtonSaveState();
 }
-
 
 class _ButtonSaveState extends State<ButtonSave> {
   void repositoryCommit() {
@@ -145,10 +160,28 @@ class _ButtonSaveState extends State<ButtonSave> {
     context.read<Repository>().setUrl(newUrl: widget.url);
   }
 
+  void sendChanges() {
+    final dio = Dio();
+    var apiSettings;
+    dio.post(apiSettings.baseUrl + 'Users/SetUser', data: {
+      'id': context.read<Repository>().id,
+      'name': widget.name,
+      'email': widget.email,
+      'phoneNumber': widget.phone,
+      'contactUrl': widget.url,
+      'password': widget.password,
+    }).then((response) => print(response.statusCode));
+  }
+
+  void commitChanges() {
+    repositoryCommit();
+    sendChanges();
+    Navigator.of(context).pushNamed('mainScreen');
+  }
 
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => {},
+      onPressed: commitChanges,
       child: Text('Сохранить',
           style: TextStyle(color: Colors.white, fontSize: 20)),
       style: ButtonStyle(
@@ -158,10 +191,10 @@ class _ButtonSaveState extends State<ButtonSave> {
             EdgeInsets.fromLTRB(10, 15, 0, 15)),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        )),
+              borderRadius: BorderRadius.circular(10),
+            )),
         backgroundColor:
-            MaterialStateProperty.all<Color>(Color.fromRGBO(226, 143, 143, 1)),
+        MaterialStateProperty.all<Color>(Color.fromRGBO(226, 143, 143, 1)),
       ),
     );
   }
