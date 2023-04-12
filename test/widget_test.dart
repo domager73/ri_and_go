@@ -8,6 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:ri_and_go/widget/main.dart';
+import 'package:ri_and_go/main.dart';
 
 void main() {}

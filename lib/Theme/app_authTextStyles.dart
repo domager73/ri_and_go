@@ -27,4 +27,22 @@ abstract class authStyles {
       fontSize: 16,
       color: Color(0xffA6A6A6)
   );
+
+  static const TripDate = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: Color(0xff141414),
+  );
+
+  static const TripName = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    fontStyle: FontStyle.italic,
+    color: Colors.black,
+  );
+
+  static const HelpPanel = TextStyle(
+      color: Colors.black87,
+      fontSize: 20
+  );
 }
