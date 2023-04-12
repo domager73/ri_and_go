@@ -24,10 +24,11 @@ class _ProfileState extends State<Profile> {
     Navigator.of(context).pushNamed('login');
   }
 
-  Future loadUserTrips() async {
+  void loadUserTrips() async {
     final dio = Dio();
     final response = await dio.get(apiSettings.baseUrl + 'Trips/GetUserTrips/${context.read<Repository>().id}');
     List data = response.data;
+    context.read<Repository>().resetTripList();
     data.forEach((trip) {
       trip = card.CardTrip(nameOfTrip: trip['name'], date: trip['date'].toString(), author: card.User(name: context.read<Repository>().name??"", id: context.read<Repository>().id??0), description: trip['description']);
       context.read<Repository>().addownTrip(trip);
@@ -52,6 +53,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     loadProfileInfo();
+    loadUserTrips();
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -269,12 +271,12 @@ class _MyTrip extends StatelessWidget {
                   Column(
                       children: context
                           .read<Repository>()
-                          .cities
+                          .userCards
                           .map((e) => AdItemWidget(
                                 itemIcon: Icons.accessible_forward,
                                 itemDate: e.date,
                                 itemName: e.nameOfTrip,
-                                itemAuthor: e.author,
+                                itemAuthor: e.author.name,
                                 itemDescription: e.description,
                               ))
                           .toList()),

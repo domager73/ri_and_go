@@ -13,6 +13,10 @@ class Repository{
   List<CardTrip> userCards = [];
   bool emailEmployed = false;
 
+  void resetTripList() {
+    userCards = [];
+  }
+
   void emailEmploy() {
     emailEmployed = true;
   }

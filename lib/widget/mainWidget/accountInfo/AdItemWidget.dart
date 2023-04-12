@@ -164,12 +164,12 @@ class _cardDescriptionState extends State<_cardDescription> {
               Text('Описание', style: descriptionTextes.title),
               Padding(padding: EdgeInsets.only(top: 10)),
               Container(
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width * 0.77,
                 height: 150,
                 child: Text(widget.description, style: descriptionTextes.title),
               ),
               Container(
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width * 0.77,
                 child: Row(
                   children: [
                     Text(
@@ -177,7 +177,7 @@ class _cardDescriptionState extends State<_cardDescription> {
                       style: descriptionTextes.text,
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.65,
+                      width: MediaQuery.of(context).size.width * 0.55,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
