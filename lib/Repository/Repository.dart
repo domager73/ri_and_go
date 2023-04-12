@@ -14,7 +14,8 @@ class Repository{
   List<CardTrip> userCards = [];
   bool emailEmployed = false;
   int? searchUserId;
-
+  List<CardTrip> aboba = [CardTrip(nameOfTrip: 'Хуйня ебаная', date: '2023-02-01', author: User(name: 'ебланище', id: 2), description: 'Кто кликнет тот гей безмамный ахахах лох заскамлен', tripType: true, id: 1), CardTrip(nameOfTrip: 'Хуйня ебаная', date: '2023-02-01', author: User(name: 'ебланище', id: 2), description: 'Кто кликнет тот гей безмамный ахахах лох заскамлен', tripType: false, id: 1)];
+  List<CardTrip> authorView = [];
   void logOut() {
     contactUrl = '';
     name = '';
@@ -79,4 +80,42 @@ class Repository{
   void setSearchInfo({required Map<String, String> newSettings}) {
     searchInfo = newSettings;
   }
+
+  void createTripDriver() {
+
+  }
+  String? toCitySearch;
+  String? fromCitySearch;
+  String? toCityUser;
+  String? fromCityUser;
+  String? toCityDriver;
+  String? fromCityDriver;
+
+  void setToCitySearch(String? city){
+    toCitySearch = city;
+  }
+
+  void setFromCitySearch(String? city){
+    fromCitySearch = city;
+  }
+
+  void setToCityDriver(String? city){
+    toCityDriver = city;
+  }
+
+  void setFromCityDriver(String? city){
+    fromCityDriver = city;
+  }
+
+  void setToCityUser(String? city){
+    toCityUser = city;
+  }
+
+  void setFromCityUser(String? city){
+    fromCityUser = city;
+  }
+
+
+  fetchData() {}
 }
+

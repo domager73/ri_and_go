@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../Repository/Repository.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -9,6 +14,31 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  Future<void> refresh() async {
+    await context.read<Repository>().fetchData(); // update the data
+    setState(() {}); // rebuild the widget tree
+  }
+
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    // создаем таймер, который будет вызывать функцию каждые 10 секунд
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        refresh();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // обязательно останавливаем таймер при удалении виджета
+    _timer.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,11 +46,14 @@ class _SearchState extends State<Search> {
         title: Text('Поиск'),
         centerTitle: true,
       ),
-      body: Container(
-        child: Column(
-          children: [
-            _AddTrip(),
-          ],
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: Container(
+          child: Column(
+            children: [
+              _AddTrip(),
+            ],
+          ),
         ),
       ),
     );
@@ -64,6 +97,7 @@ class _FormArea extends StatefulWidget {
 }
 
 class _FormAreaState extends State<_FormArea> {
+  var textColor = Color.fromRGBO(238, 238, 238, 1);
   final TextEditingController _textFieldController1 = TextEditingController();
   final TextEditingController _textFieldController2 = TextEditingController();
   final TextEditingController _textFieldController3 = TextEditingController();
@@ -71,6 +105,10 @@ class _FormAreaState extends State<_FormArea> {
   String placeFrom = '';
   String placeWhere = '';
   String time = '';
+
+  void navigateMap() {
+    Navigator.of(context).pushNamed('map');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,22 +120,46 @@ class _FormAreaState extends State<_FormArea> {
             color: Color.fromRGBO(234, 196, 152, 1),
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
-          child: Column(children: [
-            _InputField(
-              placeholderIcon: Icons.place,
-              placeholderText: 'Откуда :',
-              controller: _textFieldController1,
+          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            TextButton(
+              onPressed: navigateMap,
+              child: Text(
+                "Откуда: ${context.read<Repository>().fromCitySearch ?? ""}",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
             ),
-            _InputField(
-              placeholderIcon: Icons.temple_hindu,
-              placeholderText: 'Куда :',
-              controller: _textFieldController2,
+            TextButton(
+              onPressed: navigateMap,
+              child: Text(
+                "Куда: ${context.read<Repository>().toCitySearch ?? ""}",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
             ),
-            _InputField(
-              placeholderIcon: Icons.punch_clock,
-              placeholderText: 'Когда :',
+            TextField(
               controller: _textFieldController3,
-            ),
+              decoration: InputDecoration(
+                labelText: 'Когда :',
+                prefixIcon: Icon(
+                  Icons.punch_clock,
+                  color: textColor,
+                ),
+                labelStyle: TextStyle(
+                  color: textColor,
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                ),
+                contentPadding: EdgeInsets.fromLTRB(0, 6, 10, 6),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white, width: 1.3),
+                ),
+              ),
+            )
           ]),
         ),
         SizedBox(
@@ -109,13 +171,15 @@ class _FormAreaState extends State<_FormArea> {
               placeFrom = _textFieldController1.text;
               placeWhere = _textFieldController2.text;
               time = _textFieldController3.text;
+              context.read<Repository>().setFromCitySearch("");
+              context.read<Repository>().setToCitySearch("");
               print(placeFrom);
               print(placeWhere);
               print(time);
             });
           },
           child: Text(
-            'Click me',
+            'Найти',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w400,
@@ -130,54 +194,6 @@ class _FormAreaState extends State<_FormArea> {
               MaterialStateProperty.all<Size>(Size(double.infinity, 48))),
         ),
       ]),
-    );
-  }
-}
-
-class _InputField extends StatefulWidget {
-  final String placeholderText;
-  final IconData placeholderIcon;
-  final TextEditingController controller;
-
-  const _InputField(
-      {Key? key,
-        required this.placeholderText,
-        required this.placeholderIcon,
-        required this.controller})
-      : super(key: key);
-
-  @override
-  _InputFieldState createState() => _InputFieldState();
-}
-
-class _InputFieldState extends State<_InputField> {
-  var textColor = Color.fromRGBO(238, 238, 238, 1);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: widget.controller,
-      decoration: InputDecoration(
-        labelText: widget.placeholderText,
-        prefixIcon: Icon(
-          widget.placeholderIcon,
-          color: textColor,
-        ),
-        labelStyle: TextStyle(
-          color: textColor,
-          fontSize: 20,
-          fontStyle: FontStyle.italic,
-        ),
-        contentPadding: EdgeInsets.fromLTRB(0, 6, 10, 6),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 1.3),
-        ),
-      ),
-      style: TextStyle(
-        color: Colors.black38,
-        fontSize: 20,
-        fontStyle: FontStyle.normal,
-      ),
     );
   }
 }

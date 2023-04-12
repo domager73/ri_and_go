@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:ri_and_go/Repository/Repository.dart';
 import 'package:ri_and_go/Url/apiSetting.dart';
 import 'package:ri_and_go/widget/mainWidget/accountInfo/AdItemWidget.dart';
@@ -20,6 +21,8 @@ class _SearchState extends State<mainSearch> {
   void openSearchMenu() {
     Navigator.of(context).pushNamed('search');
   }
+  bool tripAskType = true;
+
 
   Future loadAllTrips() async {
     final dio = Dio();
@@ -29,42 +32,47 @@ class _SearchState extends State<mainSearch> {
     context.read<Repository>().resetTripList();
     List<card.CardTrip> newLoadedTrips = [];
     data.forEach((trip) async {
-      final resp = await dio.get(apiSettings.baseUrl + 'Users/Get/${trip["creatorId"]}');
-      final author = card.User(name: resp.data["name"], id: resp.data['id']);
-      trip = card.CardTrip(nameOfTrip: trip['name'], date: trip['departureTime'].toString(), author: author, description: trip['description']);
-      newLoadedTrips.add(trip);
+      if (trip['tripType'] == tripAskType) {
+        final resp = await dio.get(apiSettings.baseUrl + 'Users/Get/${trip["creatorId"]}');
+        final author = card.User(name: resp.data["name"], id: resp.data['id']);
+        var newTrip = card.CardTrip(nameOfTrip: trip['name'], date: trip['departureTime'].toString(), author: author, description: trip['description'], tripType: tripAskType, id: trip['id']);
+        newLoadedTrips.add(newTrip);
+      }
+
     });
     context.read<Repository>().cities = newLoadedTrips;
     flag = false;
   }
   Future<void> refresh()async {
     setState(() {
-      flag = true;
+
+    });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadAllTrips();
+    setState(() {
+
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-    if (flag) {
-      loadAllTrips();
-    }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xffFFEA9E),
         toolbarHeight: 40,
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: Text(
-          'Активные поездки',
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w300,
-              fontStyle: FontStyle.italic,
-              color: Colors.black),
-          textAlign: TextAlign.center,
-        ),
+        title: Text('Активные запросы',style: TextStyle(color: Colors.black, fontSize: 25))
+        // TextButton(onPressed: () {tripAskType = !tripAskType; loadAllTrips(); setState(() {
+        //
+        // });}, child: Text(
+        //   tripAskType? 'Созданные поездки' : 'созданные запроосы',
+        //   style: TextStyle(color: Colors.black, fontSize: 25),
+        // )),
       ),
       body:  RefreshIndicator(
         onRefresh: refresh,
@@ -90,15 +98,44 @@ class _SearchState extends State<mainSearch> {
                     itemAuthor: e.author.name,
                     itemDescription: e.description,
                     authorId: e.author.id,
+                    tripType: tripAskType,
                   )).toList()),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: openSearchMenu,
-        backgroundColor: Color(0xffFFB74B),
-        child: Icon(Icons.search_outlined, color: Colors.white),
+      floatingActionButton: SpeedDial(
+        //onPressed: openSearchMenu,
+          animatedIcon: AnimatedIcons.menu_close,
+          animatedIconTheme: IconThemeData(size: 22),
+          backgroundColor: Color(0xFFFFB74B),
+          visible: true,
+          curve: Curves.bounceIn,
+        children: [
+          SpeedDialChild(
+              child: Icon(Icons.assignment_turned_in, color: Colors.white),
+              backgroundColor: Color(0xFFFFB74B),
+              onTap: () {tripAskType = !tripAskType; loadAllTrips(); setState(() {
+
+              });},
+              label: 'Сменить тип объявлений',
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 16.0),
+              labelBackgroundColor: Color(0xFFFFB74B)),
+          // FAB 2
+          SpeedDialChild(
+              child: Icon(Icons.search_outlined, color: Colors.white,),
+              backgroundColor: Color(0xFFFFB74B),
+              onTap: openSearchMenu,
+              label: 'Поиск',
+              labelStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 16.0),
+              labelBackgroundColor: Color(0xFFFFB74B))
+        ],
       ),
     ); /* add child content here */
   }

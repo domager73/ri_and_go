@@ -18,117 +18,178 @@ class EditUser extends StatefulWidget {
 }
 
 class _EditUserState extends State<EditUser> {
-  TextEditingController _nameTextController = TextEditingController();
-  TextEditingController _emailTextController = TextEditingController();
-  TextEditingController _phoneTextController = TextEditingController();
-  TextEditingController _urlTextController = TextEditingController();
+  final TextEditingController _nameTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _phoneTextController = TextEditingController();
+  final TextEditingController _urlTextController = TextEditingController();
   bool flag = true;
+  String password = '';
+
+  Future repositoryCommit() async {
+    context.read<Repository>().setName(text: _nameTextController.value.text);
+    context.read<Repository>().setEmailAddress(
+        text: _emailTextController.value.text);
+    context.read<Repository>().setTelephoneNumber(
+        text: _phoneTextController.value.text);
+    context.read<Repository>().setUrl(newUrl: _urlTextController.value.text);
+  }
+
+
+  void sendChanges() {
+    final dio = Dio();
+    dio.post(apiSettings.baseUrl + 'Users/SetUser', data: {
+      'id': context
+          .read<Repository>()
+          .id,
+      'name': _nameTextController.value.text,
+      'email': _emailTextController.value.text,
+      'phoneNumber': _phoneTextController.value.text,
+      'contactUrl': _urlTextController.value.text,
+      'password': password,
+    }).then((response) => print(response.statusCode));
+  }
+
+  void commitChanges() {
+    repositoryCommit()
+        .then((value) => Navigator.of(context).pushNamed('mainScreen'));
+    sendChanges();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _nameTextController.text = context
+        .read<Repository>()
+        .name;
+    _emailTextController.text = context
+        .read<Repository>()
+        .emailAddress ?? "";
+    _phoneTextController.text =
+        context
+            .read<Repository>()
+            .telephoneNumber ?? "";
+    _urlTextController.text = context
+        .read<Repository>()
+        .contactUrl;
+    password = context
+        .read<Repository>()
+        .password ?? "";
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (flag) {
-      _nameTextController.text = context.read<Repository>().name;
-      _emailTextController.text = context.read<Repository>().emailAddress ?? "";
-      _phoneTextController.text =
-          context.read<Repository>().telephoneNumber ?? "";
-      _urlTextController.text = context.read<Repository>().contactUrl;
-      flag = false;
-    }
-
     return SafeArea(
-        child: Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('Assets/img/SearchBackground.jpg'),
-              fit: BoxFit.cover,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('Assets/img/SearchBackground.jpg'),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+            child: Expanded(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
                 Padding(padding: EdgeInsets.only(top: 10)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Padding(padding: EdgeInsets.only(top: 15)),
-                    //SizedBox(height: MediaQuery.of(context).size.height * 0.2),
-                    SizedBox(width: 100),
-                    _Avatar(),
-                    ButtonCansel(),
-                  ],
-                ),
-                SizedBox(height: 5),
-                //_Elements(),
-                Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _Info_Field(
-                              name: 'Имя', controller: _nameTextController),
-                          _Info_Field(
-                              name: 'Email', controller: _emailTextController),
-                          _Info_Field(
-                              name: 'Телефон',
-                              controller: _phoneTextController),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  top: 10, left: 20, bottom: 15),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: _urlTextController.text == ''
-                                          ? [
-                                              Text(
-                                                'Url соцсетей',
-                                                style: profileTextes.Elements,
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Image(
-                                                  image: AssetImage(
-                                                      'Assets/img/urlAlert.png')),
-                                            ]
-                                          : [
-                                              Text(
-                                                'Url соцсетей',
-                                                style: profileTextes.Elements,
-                                              )
-                                            ],
-                                    ),
-                                    TextField(
-                                      decoration: InputDecoration(
-                                          labelStyle: profileTextes.Info,
-                                          hintStyle: profileTextes.Info,
-                                          //hintText: 'ы',
-                                          hoverColor: Colors.blueGrey,
-                                          suffixIcon:
-                                              Icon(Icons.edit_outlined)),
-                                      controller: _urlTextController,
-                                    ),
-                                  ]))
-                        ])),
-
-                ButtonSave(
-                  name: _nameTextController.text,
-                  email: _emailTextController.text,
-                  phone: _phoneTextController.text,
-                  url: _urlTextController.text,
-                  password: context.read<Repository>().password ?? "",
-                ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 15)),
+                //SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+                SizedBox(width: 100),
+                _Avatar(),
+                ButtonCansel(),
               ],
             ),
+            SizedBox(height: 5),
+            //_Elements(),
+            Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _Info_Field(
+                          name: 'Имя', controller: _nameTextController),
+                      _Info_Field(
+                          name: 'Email', controller: _emailTextController),
+                      _Info_Field(
+                          name: 'Телефон',
+                          controller: _phoneTextController),
+                      Padding(
+                          padding: EdgeInsets.only(
+                              top: 10, left: 20, bottom: 15),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: _urlTextController.text == ''
+                                      ? [
+                                    Text(
+                                      'Url соцсетей',
+                                      style: profileTextes.Elements,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Image(
+                                        image: AssetImage(
+                                            'Assets/img/urlAlert.png')),
+                                  ]
+                                      : [
+                                    Text(
+                                      'Url соцсетей',
+                                      style: profileTextes.Elements,
+                                    )
+                                  ],
+                                ),
+                                TextField(
+                                  decoration: InputDecoration(
+                                      labelStyle: profileTextes.Info,
+                                      hintStyle: profileTextes.Info,
+                                      //hintText: 'ы',
+                                      hoverColor: Colors.blueGrey,
+                                      suffixIcon:
+                                      Icon(Icons.edit_outlined)),
+                                  controller: _urlTextController,
+                                  onChanged: (zbobz) {
+                                    print(_urlTextController.value.text);
+                                  },
+                                ),
+                              ]))
+                    ])),
+
+            TextButton(
+              onPressed: commitChanges,
+              child: Text('Сохранить',
+                  style: TextStyle(color: Colors.white, fontSize: 20)),
+              style: ButtonStyle(
+                minimumSize: MaterialStateProperty.all<Size>(
+                    Size(MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.8, 50)),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                    EdgeInsets.fromLTRB(10, 15, 0, 15)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )),
+                backgroundColor:
+                MaterialStateProperty.all<Color>(Color.fromRGBO(
+                    226, 143, 143, 1)),
+              ),
+            )
+            ],
           ),
         ),
       ),
-    ));
+    ),)
+    );
   }
 }
 
@@ -139,74 +200,6 @@ class ButtonCansel extends StatefulWidget {
   _ButtonCanselState createState() => _ButtonCanselState();
 }
 
-class ButtonSave extends StatefulWidget {
-  String name;
-  String email;
-  String phone;
-  String url;
-  String password;
-
-  ButtonSave(
-      {Key? key,
-      required this.name,
-      required this.email,
-      required this.phone,
-      required this.url,
-      required this.password})
-      : super(key: key);
-
-  @override
-  _ButtonSaveState createState() => _ButtonSaveState();
-}
-
-class _ButtonSaveState extends State<ButtonSave> {
-  Future repositoryCommit() async {
-    print(widget.name);
-    print(widget.url);
-    context.read<Repository>().setName(text: widget.name);
-    context.read<Repository>().setEmailAddress(text: widget.email);
-    context.read<Repository>().setTelephoneNumber(text: widget.phone);
-    context.read<Repository>().setUrl(newUrl: widget.url);
-  }
-
-  void sendChanges() {
-    final dio = Dio();
-    dio.post(apiSettings.baseUrl + 'Users/SetUser', data: {
-      'id': context.read<Repository>().id,
-      'name': widget.name,
-      'email': widget.email,
-      'phoneNumber': widget.phone,
-      'contactUrl': widget.url,
-      'password': widget.password,
-    }).then((response) => print(response.statusCode));
-  }
-
-  void commitChanges() {
-    repositoryCommit()
-        .then((value) => Navigator.of(context).pushNamed('mainScreen'));
-    sendChanges();
-  }
-
-  Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: commitChanges,
-      child: Text('Сохранить',
-          style: TextStyle(color: Colors.white, fontSize: 20)),
-      style: ButtonStyle(
-        minimumSize: MaterialStateProperty.all<Size>(
-            Size(MediaQuery.of(context).size.width * 0.8, 50)),
-        padding: MaterialStateProperty.all<EdgeInsets>(
-            EdgeInsets.fromLTRB(10, 15, 0, 15)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        )),
-        backgroundColor:
-            MaterialStateProperty.all<Color>(Color.fromRGBO(226, 143, 143, 1)),
-      ),
-    );
-  }
-}
 
 class _ButtonCanselState extends State<ButtonCansel> {
   Color buttonColor = Color.fromRGBO(146, 146, 146, 1);
@@ -264,6 +257,9 @@ class _InfoFieldState extends State<_Info_Field> {
                 hoverColor: Colors.blueGrey,
                 suffixIcon: Icon(Icons.edit_outlined)),
             controller: widget.controller,
+            onChanged: (aboba) {
+              print(widget.controller.text);
+            },
           ),
         ]));
   }

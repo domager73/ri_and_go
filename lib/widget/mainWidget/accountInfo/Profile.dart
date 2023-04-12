@@ -18,7 +18,8 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool flag = true;
-  
+  bool tripAskType = true;
+
   void logOut() async {
     var prefs = await SharedPreferences.getInstance();
     prefs.remove('login');
@@ -28,30 +29,38 @@ class _ProfileState extends State<Profile> {
     Navigator.of(context).pushNamed('login');
   }
 
-
-
   Future loadUserTrips() async {
     final dio = Dio();
     final response = await dio.get(apiSettings.baseUrl +
         'Trips/GetUserTrips/${context.read<Repository>().id}');
     List data = response.data;
     context.read<Repository>().resetTripList();
+    List<card.CardTrip> newList = [];
     data.forEach((trip) {
-      trip = card.CardTrip(
+      var newTrip = card.CardTrip(
           nameOfTrip: trip['name'],
           date: trip['departureTime'].toString(),
           author: card.User(
               name: context.read<Repository>().name ?? "",
               id: context.read<Repository>().id ?? 0),
-          description: trip['description']);
-      context.read<Repository>().addownTrip(trip);
+          description: trip['description'],
+          tripType: trip['tripType'],
+          id: trip['id']);
+      newList.add(newTrip);
     });
+    context.read<Repository>().authorView = newList;
     flag = false;
+  }
+
+  Future loadUserFollow() async {
+
   }
 
   @override
   void initState() {
     super.initState();
+    // loadUserTrips();
+    // loadProfileInfo();
   }
 
   Future<int> loadProfileInfo() async {
@@ -152,6 +161,19 @@ class _ProfileState extends State<Profile> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               _Elements(),
+              Text(
+                'Созданные поездки',
+                style: TextStyle(color: Colors.black, fontSize: 25),
+              ),
+              // TextButton(
+              //     onPressed: () {
+              //       tripAskType = !tripAskType;
+              //       loadUserTrips().then((value) => setState(() {}));
+              //     },
+              //     child: Text(
+              //       tripAskType ? 'Созданные поездки' : 'созданные запроосы',
+              //       style: TextStyle(color: Colors.black, fontSize: 25),
+              //     )),
               _MyTrip(),
             ],
           ),
@@ -270,13 +292,6 @@ class _MyTrip extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.all(10),
-              child: Text(
-                'Own trip list',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
             ),
             Container(
               margin: EdgeInsets.only(left: 10, right: 10),
@@ -290,14 +305,16 @@ class _MyTrip extends StatelessWidget {
                   Column(
                       children: context
                           .read<Repository>()
-                          .userCards
-                          .map((e) => AdItemWidget(
+                          .authorView
+                          .map((e) => AdDeletebleItemWidget(
                                 itemIcon: Icons.accessible_forward,
                                 itemDate: e.date,
                                 itemName: e.nameOfTrip,
                                 itemAuthor: e.author.name,
                                 itemDescription: e.description,
                                 authorId: e.author.id,
+                                itemId: e.id,
+                        tripType: e.tripType,
                               ))
                           .toList()),
                 ],

@@ -10,6 +10,8 @@ import 'package:ri_and_go/widget/mainWidget/accountInfo/EditUser.dart';
 import 'package:ri_and_go/widget/mainWidget/accountInfo/Profile.dart';
 import 'package:ri_and_go/widget/mainWidget/accountInfo/UserInfo.dart';
 import 'package:ri_and_go/widget/mainWidget/MainScreen.dart';
+import 'package:ri_and_go/widget/map/mapForDriver.dart';
+import 'package:ri_and_go/widget/map/mapForUser.dart';
 import 'Theme/app_color.dart';
 import 'widget/auth/AuthScreenWidget.dart';
 import 'widget/carusel_Slider/mainCarusel.dart';
@@ -26,31 +28,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
-        create: (context) => Repository(),
-        child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            appBarTheme: AppBarTheme(
-                backgroundColor: AppColors.mainColor
-            ),
+      create: (context) => Repository(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+              backgroundColor: AppColors.mainColor
           ),
-          routes: {
-            'login': (context) => AuthWidget(),
-            'firstSingin': (context) => SingWidget(),
-            'secondSingin': (context) => SecondSingWidget(),
-            'profile' : (context) => Profile(),
-            'mainScreen' : (context) => MainScreen(),
-            'add' : (context) => AddMainUserWidget(),
-            'search' : (context) => Search(),
-            'userInfo' : (context) => UserInfo(),
-            'mainSearch' : (context) => mainSearch(),
-            'editUser' : (context) => EditUser(),
-            'carusel' : (context) => MainCarousel(),
-            'map' : (context) => MapScreen(),
-          },
-
-          initialRoute: 'login',
         ),
+        routes: {
+          'login': (context) => AuthWidget(),
+          'firstSingin': (context) => SingWidget(),
+          'secondSingin': (context) => SecondSingWidget(),
+          'profile' : (context) => Profile(),
+          'mainScreen' : (context) => MainScreen(),
+          'add' : (context) => AddMainUserWidget(),
+          'search' : (context) => Search(),
+          'userInfo' : (context) => UserInfo(),
+          'mainSearch' : (context) => mainSearch(),
+          'editUser' : (context) => EditUser(),
+          'carusel' : (context) => MainCarousel(),
+          'map' : (context) => MapScreen(),
+          'mapDrive' : (context) => mapForDriver(),
+          'mapUser' : (context) => MapUser(),
+        },
+
+        initialRoute: 'login',
+      ),
     );
   }
 }

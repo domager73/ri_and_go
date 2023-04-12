@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_geocoder/geocoder.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_geocoder/model.dart';
 import 'package:flutter_geocoder/services/base.dart';
 import 'package:flutter_geocoder/services/distant_google.dart';
 import 'package:flutter_geocoder/services/local.dart';
+
+import '../../Repository/Repository.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -28,12 +31,6 @@ class _MapScreenState extends State<MapScreen> {
   LatLng? _selectedLocation;
   Completer<GoogleMapController> _controller = Completer();
 
-  @override
-  void dispose() {
-    _controller.complete(null);
-    super.dispose();
-  }
-
   void _onMapTap(LatLng latLng) {
     setState(() {
       _markers.clear();
@@ -47,12 +44,20 @@ class _MapScreenState extends State<MapScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    userLocation.changeSettings(interval: 0);
+  }
+
   void _getLocation() async {
     var currentLocation = await userLocation.getLocation();
-    setState(() {
-      _userCoordinates =
-          LatLng(currentLocation.latitude!, currentLocation.longitude!);
-    });
+    if (mounted) {
+      setState(() {
+        _userCoordinates =
+            LatLng(currentLocation.latitude!, currentLocation.longitude!);
+      });
+    }
   }
 
   @override
@@ -61,8 +66,9 @@ class _MapScreenState extends State<MapScreen> {
     _getLocation();
   }
 
-
-  void _goToFindedLocation(LatLng address,) async {
+  void _goToFindedLocation(
+    LatLng address,
+  ) async {
     mapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -72,11 +78,8 @@ class _MapScreenState extends State<MapScreen> {
       ),
     );
 
-    setState(() {
-
-    });
+    setState(() {});
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +91,12 @@ class _MapScreenState extends State<MapScreen> {
               decoration: InputDecoration(
                   hintText: 'Введите город',
                   suffixIcon: IconButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       findingPlace = searchController.text;
                       if (findingPlace != null) {
                         print(findingPlace);
-                        LatLng cords = await getCoordinatesFromAddress(findingPlace!);
+                        LatLng cords =
+                            await getCoordinatesFromAddress(findingPlace!);
                         _goToFindedLocation(cords);
                       }
                     },
@@ -132,28 +136,36 @@ class _MapScreenState extends State<MapScreen> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
-}
+
+  Future<LatLng> getCoordinatesFromAddress(String address) async {
+    var addresses = await Geocoder.local.findAddressesFromQuery(address);
+    var first = addresses.first;
+    print(first.coordinates.latitude!);
+    print(first.coordinates.longitude!);
+    return LatLng(first.coordinates.latitude!, first.coordinates.longitude!);
+  }
+
+  Future<void> getAddressFromCoordinates(
+      double latitude, double longitude) async {
+    final coordinates = new Coordinates(latitude, longitude);
+    List<Address> addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    Address first = addresses.first;
+
+    if(context.read<Repository>().fromCitySearch == null) {
+      context.read<Repository>().setFromCitySearch(first.locality);
+    }
+    else{
+      context.read<Repository>().setToCitySearch(first.locality);
+    }
+
+    // Получаем объект ModalRoute
 
 
-
-
-Future<LatLng> getCoordinatesFromAddress(String address) async {
-  var addresses = await Geocoder.local.findAddressesFromQuery(address);
-  var first = addresses.first;
-  print(first.coordinates.latitude!);
-  print(first.coordinates.longitude!);
-  return LatLng(first.coordinates.latitude!, first.coordinates.longitude!);
-}
-
-Future<void> getAddressFromCoordinates(
-    double latitude, double longitude) async {
-  final coordinates = new Coordinates(latitude, longitude);
-  List<Address> addresses =
-  await Geocoder.local.findAddressesFromCoordinates(coordinates);
-  Address first = addresses.first;
-
-  print('Страна: ${first.countryName}');
-  print('Город: ${first.locality}');
-  print('Улица: ${first.thoroughfare}');
-  print('дом: ${first.subThoroughfare}');
+    print('Страна: ${first.countryName}');
+    print('Город: ${first.locality}');
+    print('Улица: ${first.thoroughfare}');
+    print('дом: ${first.subThoroughfare}');
+    Navigator.of(context).pop();
+  }
 }
