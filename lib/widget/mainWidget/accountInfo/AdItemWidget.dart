@@ -487,19 +487,19 @@ class _cardDescriptionState extends State<_cardDescription> {
                                 widget.authorName,
                                 style: descriptionTextes.author,
                               )),
-                          TextButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Вы добавлены'),
-                                      );
-                                    });
-                              },
-                              child: Text(
-                                'хочу',
-                              )),
+                          // TextButton(
+                          //     onPressed: () {
+                          //       showDialog(
+                          //           context: context,
+                          //           builder: (BuildContext context) {
+                          //             return AlertDialog(
+                          //               title: Text('Вы добавлены'),
+                          //             );
+                          //           });
+                          //     },
+                          //     child: Text(
+                          //       'хочу',
+                          //     )),
                         ],
                       ),
                     ),
