@@ -118,10 +118,8 @@ class _FormAreaState extends State<_FormArea> {
   void search() async {
     print(_textFieldController2.text);
     print(_textFieldController1.text);
-    context.read<Repository>().clearSearchSettings();
-    context.read<Repository>().setSearchSettings(_textFieldController1.text, _textFieldController2.text, _textFieldController3.text);
+    context.read<Repository>().setSearchSettings(context.read<Repository>().fromCitySearch, context.read<Repository>().toCitySearch, _textFieldController3.text);
     print(context.read<Repository>().searchSettings);
-    Navigator.of(context).pop();
   }
 
   @override
@@ -203,13 +201,14 @@ class _FormAreaState extends State<_FormArea> {
         TextButton(
           onPressed: () {
             setState(() {
+              context.read<Repository>().clearSearchSettings();
+              search();
               context.read<Repository>().setFromCitySearch("");
               context.read<Repository>().setToCitySearch("");
-              context.read<Repository>().clearSearchSettings();
-              context.read<Repository>().setSearchSettings(_textFieldController1.text, _textFieldController2.text, _textFieldController3.text);
+
               print(context.read<Repository>().searchSettings);
               Navigator.of(context).pop();
-              search();
+
             });
           },
           child: Text(

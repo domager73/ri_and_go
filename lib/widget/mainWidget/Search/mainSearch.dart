@@ -19,6 +19,7 @@ class mainSearch extends StatefulWidget {
 class _SearchState extends State<mainSearch> {
   bool flag = true;
   void openSearchMenu() {
+    context.read<Repository>().clearSearchSettings();
     Navigator.of(context).pushNamed('search');
   }
 
