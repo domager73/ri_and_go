@@ -21,9 +21,11 @@ class _UserInfoState extends State<UserInfo> {
   String phone = '';
   String url = '';
   bool flag = true;
+
   Future getUserInfo() async {
     final dio = Dio();
-    final response = await dio.get(apiSettings.baseUrl + 'Users/Get/${context.read<Repository>().searchUserId}');
+    final response = await dio.get(apiSettings.baseUrl +
+        'Users/Get/${context.read<Repository>().searchUserId}');
     name = response.data['name'];
     email = response.data['email'];
     phone = response.data['phoneNumber'];
@@ -34,6 +36,7 @@ class _UserInfoState extends State<UserInfo> {
     flag = false;
     print(name);
   }
+
   void contactUser() async {
     if (await canLaunchUrl(Uri.parse(url)))
       await launchUrl(Uri.parse(url));
@@ -41,16 +44,14 @@ class _UserInfoState extends State<UserInfo> {
       // can't launch url, there is some error
       throw "Could not launch $url";
   }
-  
-  
+
   @override
   Widget build(BuildContext context) {
     if (flag) {
-      getUserInfo().then((value) => setState(() { }));
+      getUserInfo().then((value) => setState(() {}));
     }
 
     return Scaffold(
-
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color(0xffEAC498),
@@ -58,54 +59,50 @@ class _UserInfoState extends State<UserInfo> {
         centerTitle: true,
       ),
       body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(padding: EdgeInsets.only(top: 10)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(padding: EdgeInsets.only(top: 15)),
-                SizedBox(height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 0.2),
-                _Avatar(),
-              ],
-            ),
-            SizedBox(height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.03),
-            _Elements(name: name, email: email, phone: phone,),
-            Container(
-              margin: EdgeInsets.only(top: 100, left: 40, right: 40),
-              height: 57,
-              width: 300,
-              child: contacts
-                  ? InkWell(
-                onTap: () =>
-                    launch(
-                        'https://stackoverflow.com/questions/43583411/how-to-create-a-hyperlink-in-flutter-widget'),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      color: Color(0xffF0CE75)
-                  ),
-                  
-                  child: Text(
-                    'Написать',
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(padding: EdgeInsets.only(top: 10)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(padding: EdgeInsets.only(top: 15)),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+              _Avatar(),
+            ],
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+          _Elements(
+            name: name,
+            email: email,
+            phone: phone,
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 100, left: 40, right: 40),
+            height: 57,
+            width: 300,
+            //padding: EdgeInsets.only(top: 30),
+            child: contacts
+                ? InkWell(
+                    onTap: () => launch(url),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          color: Color(0xffF0CE75)),
+                      child: Text(
+                        'Написать',
+                        textAlign: TextAlign.center,
+                        style: profileTextes.contactButton,
+                      ),
+                    ))
+                : Text(
+                    'Этот пользователь не указал соцсети для связи',
+                    style: profileTextes.noContacts,
                     textAlign: TextAlign.center,
-                    style: profileTextes.contactButton,
                   ),
-                ))
-                  : Text(
-                'Этот пользователь не указал соцсети для связи',
-                style: profileTextes.noContacts,
-                textAlign: TextAlign.center,
-              ),
-            )
-          ],
-        ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -135,16 +132,13 @@ class _InfoFieldState extends State<_Info_Field> {
           ),
           Container(
             margin: EdgeInsets.only(top: 5),
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.9,
+            width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
-                      color: Color(0xff4D361C),
-                      width: 1,
-                    ))),
+              color: Color(0xff4D361C),
+              width: 1,
+            ))),
             child: Text(
               widget.value,
               style: profileTextes.Info,
@@ -181,7 +175,10 @@ class _Elements extends StatefulWidget {
   String name;
   String email;
   String phone;
-  _Elements({Key? key, required this.name, required this.email, required this.phone}) : super(key: key);
+
+  _Elements(
+      {Key? key, required this.name, required this.email, required this.phone})
+      : super(key: key);
 
   @override
   _ElementsState createState() => _ElementsState();

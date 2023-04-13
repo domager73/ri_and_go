@@ -27,8 +27,9 @@ class _SearchState extends State<mainSearch> {
   Future loadAllTrips() async {
     final dio = Dio();
     var searchSettings = context.read<Repository>().searchSettings;
+    print(searchSettings);
     List<card.CardTrip> newLoadedTrips = [];
-    if (searchSettings == {}) {
+    if (searchSettings.isEmpty) {
       final response = await dio.get(apiSettings.baseUrl + 'Trips/GetAll');
       List data = response.data;
       context.read<Repository>().cities = [];
@@ -51,9 +52,11 @@ class _SearchState extends State<mainSearch> {
         }
       });
     } else {
+      print('search settings');
       final response = await dio.post(apiSettings.baseUrl + 'Trips/FetchTrips',
           data: searchSettings);
       List data = response.data;
+      print(data);
       context.read<Repository>().cities = [];
       context.read<Repository>().resetTripList();
 
@@ -137,7 +140,7 @@ class _SearchState extends State<mainSearch> {
                       .read<Repository>()
                       .cities
                       .map((e) => AdItemWidget(
-                            itemIcon: Icons.accessible_forward,
+                            itemIcon: Icons.car_crash_outlined,
                             itemDate: e.date,
                             itemName: e.nameOfTrip,
                             itemAuthor: e.author.name,

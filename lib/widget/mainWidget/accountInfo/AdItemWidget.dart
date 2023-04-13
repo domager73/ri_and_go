@@ -84,7 +84,7 @@ class _AdItemWidgetState extends State<AdItemWidget> {
 }
 
 class AdDeletebleItemWidget extends StatefulWidget {
-  IconData itemIcon;
+  //IconData itemIcon;
   String itemName;
   String itemDate;
   String itemDescription;
@@ -96,7 +96,7 @@ class AdDeletebleItemWidget extends StatefulWidget {
   AdDeletebleItemWidget(
       {Key? key,
       required this.itemId,
-      required this.itemIcon,
+      //required this.itemIcon,
       required this.itemName,
       required this.itemDate,
       required this.itemAuthor,
@@ -136,7 +136,7 @@ class _AdDeletebleItemWidgetState extends State<AdDeletebleItemWidget> {
           children: isOpen
               ? [
                   _daletebleCardBody(
-                      itemIcon: widget.itemIcon,
+                      //itemIcon: widget.itemIcon,
                       itemName: widget.itemName,
                       itemDate: widget.itemDate,
                       id: widget.itemId,
@@ -149,7 +149,7 @@ class _AdDeletebleItemWidgetState extends State<AdDeletebleItemWidget> {
                 ]
               : [
                   _daletebleCardBody(
-                    itemIcon: widget.itemIcon,
+                    //itemIcon: widget.itemIcon,
                     itemName: widget.itemName,
                     itemDate: widget.itemDate,
                     id: widget.itemId,
@@ -163,7 +163,7 @@ class _AdDeletebleItemWidgetState extends State<AdDeletebleItemWidget> {
 }
 
 class _daletebleCardBody extends StatefulWidget {
-  final IconData itemIcon;
+  //final IconData itemIcon;
   final String itemName;
   final String itemDate;
   final int id;
@@ -171,7 +171,7 @@ class _daletebleCardBody extends StatefulWidget {
 
   const _daletebleCardBody(
       {Key? key,
-      required this.itemIcon,
+      //required this.itemIcon,
       required this.itemName,
       required this.itemDate,
       required this.id,

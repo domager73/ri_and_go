@@ -318,7 +318,7 @@ class _MyTrip extends StatelessWidget {
                           .read<Repository>()
                           .authorView
                           .map((e) => AdDeletebleItemWidget(
-                                itemIcon: Icons.accessible_forward,
+                                //itemIcon: Icons.car_crash_outlined,
                                 itemDate: e.date,
                                 itemName: e.nameOfTrip,
                                 itemAuthor: e.author.name,

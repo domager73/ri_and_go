@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../Repository/Repository.dart';
+import '../../../maskByText/mask.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -115,10 +116,12 @@ class _FormAreaState extends State<_FormArea> {
   }
 
   void search() async {
-
+    print(_textFieldController2.text);
+    print(_textFieldController1.text);
     context.read<Repository>().clearSearchSettings();
-    context.read<Repository>().setSearchInfo(newSettings: {'from': placeFrom, 'to': placeWhere, 'when': time});
-    Navigator.of(context).pushNamed('mainScreen');
+    context.read<Repository>().setSearchSettings(_textFieldController1.text, _textFieldController2.text, _textFieldController3.text);
+    print(context.read<Repository>().searchSettings);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -174,6 +177,7 @@ class _FormAreaState extends State<_FormArea> {
                 ),
                 TextField(
                   controller: _textFieldController3,
+                  inputFormatters: [maskFormatterDate],
                   decoration: InputDecoration(
                     labelText: 'Когда :',
                     prefixIcon: Icon(
@@ -201,9 +205,10 @@ class _FormAreaState extends State<_FormArea> {
             setState(() {
               context.read<Repository>().setFromCitySearch("");
               context.read<Repository>().setToCitySearch("");
-              placeFrom = _textFieldController1.text;
-              placeWhere = _textFieldController2.text;
-              time = _textFieldController3.text;
+              context.read<Repository>().clearSearchSettings();
+              context.read<Repository>().setSearchSettings(_textFieldController1.text, _textFieldController2.text, _textFieldController3.text);
+              print(context.read<Repository>().searchSettings);
+              Navigator.of(context).pop();
               search();
             });
           },

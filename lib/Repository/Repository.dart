@@ -96,9 +96,9 @@ class Repository{
     'to': '',
     'when': ''
   };
-  void setSearchInfo({required Map<String, String> newSettings}) {
-    searchInfo = newSettings;
-  }
+  // void setSearchInfo({required Map<String, String> newSettings}) {
+  //   searchInfo = newSettings;
+  // }
 
   void createTripDriver() {
 
