@@ -1,5 +1,5 @@
 name: ri_and_go
-description: A new Flutter project.
+description: Modern travel project for general trips.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
@@ -27,11 +27,14 @@ dependencies:
   url_launcher: ^6.1.10
   flutter_speed_dial: ^6.2.0
 
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
   flutter_native_splash: ^2.2.19
+  flutter_launcher_icons: "^0.13.0"
 
 flutter_native_splash:
   color: "#FFFFFF"
@@ -47,3 +50,12 @@ flutter:
     - Assets/img/Group.png
     - Assets/img/Word.png
     - Assets/img/SearchBackground.jpg
+    - Assets/img/bg.png
+    - Assets/img/splashIcon.png
+    - Assets/icons/
+
+flutter_icons:
+  android: "launcher_icon"
+  remove_alpha_ios: true
+  ios: true
+  image_path: "Assets/icons/icon.png"

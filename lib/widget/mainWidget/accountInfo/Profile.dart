@@ -52,9 +52,7 @@ class _ProfileState extends State<Profile> {
     flag = false;
   }
 
-  Future loadUserFollow() async {
-
-  }
+  Future loadUserFollow() async {}
 
   @override
   void initState() {
@@ -89,9 +87,8 @@ class _ProfileState extends State<Profile> {
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('Assets/img/SearchBackground.jpg'),
-              fit: BoxFit.cover,
-            ),
+                image: AssetImage('Assets/img/bg.png'),
+                repeat: ImageRepeat.repeat),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -163,7 +160,11 @@ class _ProfileState extends State<Profile> {
               _Elements(),
               Text(
                 'Созданные поездки',
-                style: TextStyle(color: Colors.black, fontSize: 25),
+                style: TextStyle(
+                    color: Color.fromRGBO(133, 64, 0, 1),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.italic),
               ),
               // TextButton(
               //     onPressed: () {
@@ -294,10 +295,20 @@ class _MyTrip extends StatelessWidget {
               padding: EdgeInsets.all(10),
             ),
             Container(
+              decoration: BoxDecoration(
+                  color: Color(0xffEBEBEB),
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.56),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ]),
               margin: EdgeInsets.only(left: 10, right: 10),
               height: MediaQuery.of(context).size.height * 0.27,
               padding: EdgeInsets.all(10),
-              color: Color(0xffEBEBEB),
               child: ListView(
                 padding: EdgeInsets.only(top: 5, bottom: 5),
                 scrollDirection: Axis.vertical,
@@ -314,7 +325,7 @@ class _MyTrip extends StatelessWidget {
                                 itemDescription: e.description,
                                 authorId: e.author.id,
                                 itemId: e.id,
-                        tripType: e.tripType,
+                                tripType: e.tripType,
                               ))
                           .toList()),
                 ],

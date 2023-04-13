@@ -22,59 +22,54 @@ class _AddMainUserWidgetState extends State<AddMainUserWidget> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 100,
-                      ),
-                      SizedBox(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.8,
-                        child: PageView.builder(
-                            onPageChanged: (index) {
-                              setState(() {
-                                currentIndex = index;
-                              });
-                            },
-                            itemCount: _widgetOptions.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  child: _widgetOptions[index],
-                                ),
-                              );
-                            }),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      for (var i = 0; i < _widgetOptions.length; i++)...[
-                        buildIndicator(currentIndex == i),
-                        SizedBox(width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.03,),
-                      ]
-                    ],
-                  ),
-                ]
-            ),
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('Assets/img/bg.png'),
+              repeat: ImageRepeat.repeat),
+        ),
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 100,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.8,
+                child: PageView.builder(
+                    onPageChanged: (index) {
+                      setState(() {
+                        currentIndex = index;
+                      });
+                    },
+                    itemCount: _widgetOptions.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          child: _widgetOptions[index],
+                        ),
+                      );
+                    }),
+              ),
+            ],
           ),
-        )
-    );
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (var i = 0; i < _widgetOptions.length; i++) ...[
+                buildIndicator(currentIndex == i),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.03,
+                ),
+              ]
+            ],
+          ),
+        ]),
+      ),
+    ));
   }
 
   Widget buildIndicator(bool isSelected) {

@@ -72,15 +72,19 @@ class _AddTripState extends State<_AddTrip> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('Assets/img/bg.png'),
+              repeat: ImageRepeat.repeat
+            ),
+        ),
         padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
         height: MediaQuery.of(context).size.height - 56,
         child: ListView(
           children: [
-            Icon(
-              Icons.car_repair_outlined,
-              size: 150,
-              color: Colors.black,
-            ),
+            SizedBox(height: 15,),
+            Image(image: AssetImage('Assets/img/splashIcon.png'), width: 110, height: 110),
+            SizedBox(height: 25,),
             _FormArea(),
           ],
         ),
@@ -154,7 +158,7 @@ class _FormAreaState extends State<_FormArea> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(Icons.map, color: textColor,),
+                      Icon(Icons.location_on, color: textColor,),
                       SizedBox(width: 15,),
                       Text(
                         "Куда: ${context.read<Repository>().toCitySearch ?? ""}",

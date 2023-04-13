@@ -92,12 +92,17 @@ class _FormAreaState extends State<AddDriver> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Driver',
+              Text(
+              'Водитель',
               style: TextStyle(
-                fontSize: 50,
+                fontSize: 35,
+                fontWeight: FontWeight.w600,
+                // fontStyle: FontStyle.italic,
+                color: Color.fromRGBO(100, 91, 81, 0.7)
               ),
             ),
+            SizedBox(width: 10,),
+            Icon(Icons.two_wheeler_outlined, size: 35, color: Color.fromRGBO(100, 91, 81, 0.7),)
           ],
         ),
         SizedBox(
@@ -113,23 +118,37 @@ class _FormAreaState extends State<AddDriver> {
               child: Column(children: [
                 TextButton(
                   onPressed: navigateMap,
-                  child: Text(
-                    "Откуда: ${context.read<Repository>().fromCityDriver ?? ""}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                  child: Row(
+                      children: [
+                        Icon(Icons.map, color: Color.fromRGBO(238, 238, 238, 1),),
+                        SizedBox(width: 15,),
+                        Text("Откуда: ${context.read<Repository>().fromCityDriver ?? ""}",
+                          style: TextStyle(
+                            color: Color.fromRGBO(238, 238, 238, 1),
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
                 ),
                 TextButton(
                   onPressed: navigateMap,
-                  child: Text(
-                    "Куда: ${context.read<Repository>().toCityDriver ?? ""}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                  child: Row(
+                      children: [
+                        Icon(Icons.location_on, color: Color.fromRGBO(238, 238, 238, 1),),
+                        SizedBox(width: 15,),
+                        Text("Куда: ${context.read<Repository>().toCityDriver ?? ""}",
+                          style: TextStyle(
+                            color: Color.fromRGBO(238, 238, 238, 1),
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
                 ),
                 _InputField(
                   placeholderIcon: Icons.punch_clock,

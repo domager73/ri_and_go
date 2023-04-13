@@ -94,11 +94,17 @@ class _FormAreaState extends State<AddUser> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'User',
+              'Пассажир',
               style: TextStyle(
-                fontSize: 50,
+                fontSize: 35,
+                fontWeight: FontWeight.w600,
+                // fontStyle: FontStyle.italic,
+                color: Color.fromRGBO(100, 91, 81, 0.7)
               ),
+              
             ),
+            SizedBox(width: 10,),
+            Icon(Icons.accessibility_new_rounded, size: 35, color: Color.fromRGBO(100, 91, 81, 0.8),)
           ],
         ),
         SizedBox(
@@ -114,23 +120,39 @@ class _FormAreaState extends State<AddUser> {
               child: Column(children: [
                 TextButton(
                   onPressed: navigateMap,
-                  child: Text(
-                    "Откуда: ${context.read<Repository>().fromCityUser??""}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                  child: Row(
+                      children: [
+                        Icon(Icons.map, color: Color.fromRGBO(238, 238, 238, 1),),
+                        SizedBox(width: 15,),
+                        Text(
+                          "Откуда: ${context.read<Repository>().fromCityUser ?? ""}",
+                          style: TextStyle(
+                            color: Color.fromRGBO(238, 238, 238, 1),
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
                 ),
                 TextButton(
                   onPressed: navigateMap,
-                  child: Text(
-                    "Куда: ${context.read<Repository>().toCityUser??""}",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                  child: Row(
+                      children: [
+                        Icon(Icons.location_on, color: Color.fromRGBO(238, 238, 238, 1),),
+                        SizedBox(width: 15,),
+                        Text(
+                          "Куда: ${context.read<Repository>().toCityUser ?? ""}",
+                          style: TextStyle(
+                            color: Color.fromRGBO(238, 238, 238, 1),
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
                 ),
                 _InputField(
                   placeholderIcon: Icons.punch_clock,

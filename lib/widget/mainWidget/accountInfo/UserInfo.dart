@@ -82,21 +82,22 @@ class _UserInfoState extends State<UserInfo> {
               height: 57,
               width: 300,
               child: contacts
-                  ? TextButton(
-                onPressed: contactUser,
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                  ? InkWell(
+                onTap: () =>
+                    launch(
+                        'https://stackoverflow.com/questions/43583411/how-to-create-a-hyperlink-in-flutter-widget'),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: Color(0xffF0CE75)
                   ),
-                  backgroundColor: MaterialStateProperty.all(Color(0xfff0ce75)),
-                ),
-                child: Text(
-                  'Написать',
-                  textAlign: TextAlign.center,
-                  style: profileTextes.contactButton,
-                ),
-              )
+                  
+                  child: Text(
+                    'Написать',
+                    textAlign: TextAlign.center,
+                    style: profileTextes.contactButton,
+                  ),
+                ))
                   : Text(
                 'Этот пользователь не указал соцсети для связи',
                 style: profileTextes.noContacts,

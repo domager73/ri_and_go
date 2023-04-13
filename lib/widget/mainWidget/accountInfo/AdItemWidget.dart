@@ -46,7 +46,13 @@ class _AdItemWidgetState extends State<AdItemWidget> {
         margin: EdgeInsets.only(bottom: 15, top: 0),
         padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(15)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(
+                color: Colors.black.withOpacity(0.6),
+                width: 1,
+              ),
+            ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: isOpen
@@ -96,8 +102,7 @@ class AdDeletebleItemWidget extends StatefulWidget {
       required this.itemAuthor,
       required this.itemDescription,
       required this.authorId,
-        required this.tripType
-      })
+      required this.tripType})
       : super(key: key);
 
   @override
@@ -120,18 +125,22 @@ class _AdDeletebleItemWidgetState extends State<AdDeletebleItemWidget> {
         margin: EdgeInsets.only(bottom: 15, top: 0),
         padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(15)),
+            border: Border.all(
+              color: Colors.black.withOpacity(0.6),
+              width: 1,
+            ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: isOpen
               ? [
                   _daletebleCardBody(
-                    itemIcon: widget.itemIcon,
-                    itemName: widget.itemName,
-                    itemDate: widget.itemDate,
-                    id: widget.itemId,
-                      typeOfTrip: widget.tripType
-                  ),
+                      itemIcon: widget.itemIcon,
+                      itemName: widget.itemName,
+                      itemDate: widget.itemDate,
+                      id: widget.itemId,
+                      typeOfTrip: widget.tripType),
                   _simpleCardDescription(
                     description: widget.itemDescription,
                     authorName: widget.itemAuthor,
@@ -176,14 +185,11 @@ class _daletebleCardBody extends StatefulWidget {
 class _daletebleCardBodyState extends State<_daletebleCardBody> {
   Future disableTrip() async {
     final dio = Dio();
-    final response = await dio.post(apiSettings.baseUrl + 'Trips/SetActive', data: {'tripId': widget.id, 'isActive': false});
+    final response = await dio.post(apiSettings.baseUrl + 'Trips/SetActive',
+        data: {'tripId': widget.id, 'isActive': false});
     print(response.statusCode);
-    setState(() {
-
-    });
+    setState(() {});
   }
-
-
 
   Widget build(BuildContext context) {
     return Row(

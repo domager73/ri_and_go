@@ -83,10 +83,12 @@ class _EditUserState extends State<EditUser> {
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
+            height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('Assets/img/SearchBackground.jpg'),
-                fit: BoxFit.cover,
+                image: AssetImage('Assets/img/bg.png'),
+                repeat: ImageRepeat.repeat
+                
               ),
             ),
             child: Expanded(

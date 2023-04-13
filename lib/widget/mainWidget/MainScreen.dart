@@ -36,6 +36,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xffEAC498),
+        selectedItemColor: Colors.white,
         currentIndex: _selecttab,
         items: [
           BottomNavigationBarItem(
@@ -43,11 +44,11 @@ class _MainScreenState extends State<MainScreen> {
             label: 'search',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.local_hospital_outlined),
+              icon: Icon(Icons.add_circle_outline_outlined),
               label: ''
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.nature_people),
+            icon: Icon(Icons.person),
             label: 'Profile',
           ),
         ],

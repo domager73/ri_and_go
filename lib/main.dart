@@ -30,7 +30,8 @@ class MyApp extends StatelessWidget {
     return RepositoryProvider(
       create: (context) => Repository(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        title: 'Ri&Go',
         theme: ThemeData(
           appBarTheme: AppBarTheme(
               backgroundColor: AppColors.mainColor
