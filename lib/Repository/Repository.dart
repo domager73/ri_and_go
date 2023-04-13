@@ -23,6 +23,25 @@ class Repository{
     telephoneNumber = '';
   }
 
+  Map<String, String> searchSettings = {};
+
+  void clearSearchSettings() {
+    searchSettings = {};
+  }
+
+  void setSearchSettings(String from, String to, String when) {
+    if (from != '') {
+      searchSettings['from'] = from;
+    }
+    if (to != '') {
+      searchSettings['to'] = to;
+    }
+    if (when != '') {
+      searchSettings['when'] = when;
+    }
+  }
+
+
   void setSearchUserId(int id) {
     searchUserId = id;
   }

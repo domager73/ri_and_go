@@ -26,20 +26,43 @@ class _SearchState extends State<mainSearch> {
 
   Future loadAllTrips() async {
     final dio = Dio();
-    final response = await dio.get(apiSettings.baseUrl + 'Trips/GetAll');
-    List data = response.data;
-    context.read<Repository>().cities = [];
-    context.read<Repository>().resetTripList();
+    var searchSettings = context.read<Repository>().searchSettings;
     List<card.CardTrip> newLoadedTrips = [];
-    data.forEach((trip) async {
-      if (trip['tripType'] == tripAskType) {
-        final resp = await dio.get(apiSettings.baseUrl + 'Users/Get/${trip["creatorId"]}');
-        final author = card.User(name: resp.data["name"], id: resp.data['id']);
-        var newTrip = card.CardTrip(nameOfTrip: trip['name'], date: trip['departureTime'].toString(), author: author, description: trip['description'], tripType: tripAskType, id: trip['id']);
-        newLoadedTrips.add(newTrip);
-      }
+    if (searchSettings == {}) {
+      final response = await dio.get(apiSettings.baseUrl + 'Trips/GetAll');
+      List data = response.data;
+      context.read<Repository>().cities = [];
+      context.read<Repository>().resetTripList();
 
-    });
+      data.forEach((trip) async {
+        if (trip['tripType'] == tripAskType) {
+          final resp = await dio.get(apiSettings.baseUrl + 'Users/Get/${trip["creatorId"]}');
+          final author = card.User(name: resp.data["name"], id: resp.data['id']);
+          var newTrip = card.CardTrip(nameOfTrip: trip['name'], date: trip['departureTime'].toString(), author: author, description: trip['description'], tripType: tripAskType, id: trip['id']);
+          newLoadedTrips.add(newTrip);
+        }
+
+      });
+
+    } else {
+      final response = await dio.post(apiSettings.baseUrl + 'Trips/FetchTrips', data: searchSettings);
+      List data = response.data;
+      context.read<Repository>().cities = [];
+      context.read<Repository>().resetTripList();
+
+      data.forEach((trip) async {
+        if (trip['tripType'] == tripAskType) {
+          final resp = await dio.get(apiSettings.baseUrl + 'Users/Get/${trip["creatorId"]}');
+          final author = card.User(name: resp.data["name"], id: resp.data['id']);
+          var newTrip = card.CardTrip(nameOfTrip: trip['name'], date: trip['departureTime'].toString(), author: author, description: trip['description'], tripType: tripAskType, id: trip['id']);
+          newLoadedTrips.add(newTrip);
+        }
+
+      });
+    }
+
+
+
     context.read<Repository>().cities = newLoadedTrips;
     flag = false;
   }

@@ -110,6 +110,13 @@ class _FormAreaState extends State<_FormArea> {
     Navigator.of(context).pushNamed('map');
   }
 
+  void search() async {
+
+    context.read<Repository>().clearSearchSettings();
+    context.read<Repository>().setSearchInfo(newSettings: {'from': placeFrom, 'to': placeWhere, 'when': time});
+    Navigator.of(context).pushNamed('mainScreen');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -120,47 +127,67 @@ class _FormAreaState extends State<_FormArea> {
             color: Color.fromRGBO(234, 196, 152, 1),
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            TextButton(
-              onPressed: navigateMap,
-              child: Text(
-                "Откуда: ${context.read<Repository>().fromCitySearch ?? ""}",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextButton(
+                    onPressed: navigateMap,
+                    child: Row(
+                      children: [
+                        Icon(Icons.map, color: textColor,),
+                        SizedBox(width: 15,),
+                        Text(
+                          "Откуда: ${context.read<Repository>().fromCitySearch ?? ""}",
+                          style: TextStyle(
+                            color: textColor,
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    )
                 ),
-              ),
-            ),
-            TextButton(
-              onPressed: navigateMap,
-              child: Text(
-                "Куда: ${context.read<Repository>().toCitySearch ?? ""}",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
+                TextButton(
+                  onPressed: navigateMap,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Icons.map, color: textColor,),
+                      SizedBox(width: 15,),
+                      Text(
+                        "Куда: ${context.read<Repository>().toCitySearch ?? ""}",
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 20,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-            TextField(
-              controller: _textFieldController3,
-              decoration: InputDecoration(
-                labelText: 'Когда :',
-                prefixIcon: Icon(
-                  Icons.punch_clock,
-                  color: textColor,
-                ),
-                labelStyle: TextStyle(
-                  color: textColor,
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                ),
-                contentPadding: EdgeInsets.fromLTRB(0, 6, 10, 6),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 1.3),
-                ),
-              ),
-            )
-          ]),
+                TextField(
+                  controller: _textFieldController3,
+                  decoration: InputDecoration(
+                    labelText: 'Когда :',
+                    prefixIcon: Icon(
+                      Icons.punch_clock,
+                      color: textColor,
+                    ),
+                    labelStyle: TextStyle(
+                      color: textColor,
+                      fontSize: 20,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    contentPadding: EdgeInsets.fromLTRB(0, 6, 10, 6),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 1.3),
+                    ),
+                  ),
+                )
+              ]),
         ),
         SizedBox(
           height: 23,
@@ -168,14 +195,12 @@ class _FormAreaState extends State<_FormArea> {
         TextButton(
           onPressed: () {
             setState(() {
+              context.read<Repository>().setFromCitySearch("");
+              context.read<Repository>().setToCitySearch("");
               placeFrom = _textFieldController1.text;
               placeWhere = _textFieldController2.text;
               time = _textFieldController3.text;
-              context.read<Repository>().setFromCitySearch("");
-              context.read<Repository>().setToCitySearch("");
-              print(placeFrom);
-              print(placeWhere);
-              print(time);
+              search();
             });
           },
           child: Text(
@@ -197,3 +222,4 @@ class _FormAreaState extends State<_FormArea> {
     );
   }
 }
+
