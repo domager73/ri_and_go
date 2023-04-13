@@ -190,7 +190,7 @@ class _daletebleCardBodyState extends State<_daletebleCardBody> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (widget.typeOfTrip) ...[
+          if (!widget.typeOfTrip) ...[
             Icon(
               Icons.assignment_ind_outlined,
               size: 55,
